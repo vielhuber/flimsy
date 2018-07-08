@@ -44,7 +44,7 @@ create **aliases.json** (put this e.g. inside your dropbox):
 }
 ```
 
-and put this your autostart:
+and throw this inside your autostart:
 ```bash
 python ~/path/to/flimsy.py ~/path/to/aliases.json &
 ```
