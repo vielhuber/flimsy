@@ -21,12 +21,12 @@ install the awesome [keyboard](https://github.com/boppreh/keyboard) package with
 pip install keyboard
 ```
 
-fetch the script with:
+fetch **flimsy.py**:
 ```bash
 wget https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.py
 ```
 
-setup your aliases in a json file (e.g. inside your dropbox):
+create **aliases.json** (put this e.g. inside your dropbox):
 ```json
 {
     "lorem": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
@@ -46,7 +46,7 @@ setup your aliases in a json file (e.g. inside your dropbox):
 
 and put this your autostart:
 ```bash
-python flimsy.py &
+python ~/path/to/flimsy.py ~/path/to/aliases.json &
 ```
 
 now get the party started:
