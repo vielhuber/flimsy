@@ -5,11 +5,12 @@ flimsy is a cross-platform text expander for lazy programmers.
 ## supports
 
 * windows
-* max
+* mac
 * linux
 
 ## features
 
+* easy json configuration file
 * enhance your aliases with placeholders
 * works in every environment (even on remote ssh sessions)
 
@@ -32,7 +33,7 @@ setup your aliases in a json file (e.g. inside your dropbox):
     "docroot": "$_SERVER['DOCUMENT_ROOT']",
     "quote": "&bdquo;&ldquo; „“",
     "anim": "transition: all 0.25s ease-in-out;",
-    "nash": "–",
+    "ndash": "–",
     "plus": "⁺",
     "iconr": "®",
     "iconc": "©",
