@@ -2,7 +2,7 @@
 
 flimsy is a cross-platform text expander for lazy programmers.
 
-## os
+## supports
 
 * windows
 * max
@@ -15,12 +15,12 @@ flimsy is a cross-platform text expander for lazy programmers.
 
 ## installation
 
-install the awesome [keyboard](https://github.com/boppreh/keyboard) package with
+install the awesome [keyboard](https://github.com/boppreh/keyboard) package with:
 ```bash
 pip install keyboard
 ```
 
-fetch the script with
+fetch the script with:
 ```bash
 wget https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.py
 ```
@@ -43,11 +43,11 @@ setup your aliases in a json file (e.g. inside your dropbox):
 }
 ```
 
-and put this your autostart
+and put this your autostart:
 ```bash
 python flimsy.py &
 ```
 
 now get the party started:
+
 ![demo](https://media.giphy.com/media/qPa9vUYCUrx6w/giphy.gif)
-```
