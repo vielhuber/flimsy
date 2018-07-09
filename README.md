@@ -1,6 +1,7 @@
 # 🐨 flimsy 🐨
 
 flimsy is a cross-platform text expander for lazy programmers.
+
 it intentionally reveal whats behind your aliases so that you know whats going on.
 
 ## supports
