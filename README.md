@@ -20,7 +20,7 @@ it intentionally reveal whats behind your aliases so that you know whats going o
 
 install the awesome [keyboard](https://github.com/boppreh/keyboard) package with:
 ```bash
-pip install keyboard
+pip3 install keyboard
 ```
 
 fetch **flimsy.py**:
@@ -54,7 +54,7 @@ create **aliases.json** (put this e.g. inside your dropbox):
 
 and throw this inside your autostart:
 ```bash
-python ~/path/to/flimsy.py ~/path/to/aliases.json &
+sudo python3 ~/path/to/flimsy.py ~/path/to/aliases.json &
 ```
 
 now get the party started:

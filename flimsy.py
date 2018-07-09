@@ -27,13 +27,11 @@ def addAbbreviation(word, target):
 
         state.time = event.time
 
-        print(state.current);
-
         matched = state.current == word or (match_suffix and state.current.endswith(word))
         if name in triggers and matched:
             callback()
             state.current = ''
-        elif len(name) > 1:
+        elif name not in triggers and len(name) > 1:
             state.current = ''
         else:
             state.current += name
@@ -45,7 +43,7 @@ def addAbbreviation(word, target):
 
 
 data = {
-    '@@': 'ficken'
+    "gitu": "git add -A .; git commit -m \"\"; git push origin master;"
 }
 
 for data__key,data__value in data.items():
