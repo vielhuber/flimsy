@@ -1,6 +1,6 @@
 # 🐨 flimsy 🐨
 
-flimsy is a cross-platform text expander for lazy programmers.
+flimsy is a cross-platform text expander for lazy programmers written in python.
 
 it intentionally reveal whats behind your aliases so that you know whats going on.
 
