@@ -1,72 +1,69 @@
 import keyboard
 import pyperclip
 from time import sleep
+import platform
 
-class _State(object): pass
+class Data(object): pass
 
-events = []
-
-def addAbbreviation(word, target):
-
-    replacement = target
-
-    def callback():
-        for x in range((len(word)+1)):       
-            keyboard.send('backspace')
-            sleep(0.01)
-        pyperclip.copy('The text to be copied to the clipboard. with "fucking" umlauts;;;;;')
-        keyboard.send('ctrl+shift+v')
-        # on linux use "False"
-        # on mac/windows use "True"
-        #keyboard.write(replacement, 0.01, True, False)
-
-    triggers=[' ','space','right ctrl','ctrl','command']
-    match_suffix=True,
-    timeout=60
-
-    state = _State()
-    state.current = ''
-    state.time = -1
-
-    def handler(event):
-
-        name = event.name
-
-        #print(name)
-
-        events.append(event)
-
-        if event.event_type == keyboard.KEY_UP or (name in keyboard.all_modifiers and name not in triggers):
-            return
-
-        if timeout and event.time - state.time > timeout:
-            state.current = ''
-
-        if( name == 'space' ):
-            name = ' '        
-
-        state.time = event.time
-
-        #print(list(keyboard.get_typed_strings(events)))
-
-        matched = state.current == word or (match_suffix and state.current.endswith(word))
-
-        if name in triggers and matched:
-            callback()
-            state.current = ''
-        elif len(name) > 1:
-            state.current = ''
-        else:
-            state.current += name
-
-    hooked = keyboard.hook(handler)
-
-data = {
-    'gitu': 'git add -A .; git commit ""; git push origin master;'
+data = Data()
+data.events = []
+data.timeout = 5
+data.timer = None
+data.triggers = ['space','right ctrl','ctrl','command','strg-rechts']
+data.replacements = {
+    'gita': 'git add -A .; git commit ""; git push origin master;',
+    'iconr': '®',
+    'iconc': '©',
+    'cfix': 'clear:both;\ndisplay:table;\ncontent:""'
 }
 
-for data__key,data__value in data.items():
+def replace(source, target):
+    #print((len(source)+1))
+    for x in range(len(source)):       
+        keyboard.send('backspace')
+        sleep(0.01)
+    pyperclip.copy(target)
+    sleep(0.5)
+    if platform.system() == 'Windows':
+        keyboard.send('ctrl+v')
+    if platform.system() == 'Darwin':
+        keyboard.send('ctrl+v')
+    if platform.system() == 'Linux':
+        keyboard.send('ctrl+shift+v')
 
-    addAbbreviation(data__key,data__value)
+def handler(event):
+
+    global data;
+
+    name = event.name
+
+    if data.timer and event.time-data.timer > data.timeout:
+        data.events = []
+        print('clearing events')
+    data.timer = event.time
+
+    data.events.append(event)
+
+    if event.event_type == keyboard.KEY_UP and name not in data.triggers:
+        return
+    if name in keyboard.all_modifiers:
+        return
+
+    #print(list(keyboard.get_typed_strings(data.events)))
+    string = ''.join(list(keyboard.get_typed_strings(data.events)))
+    print(string)
+    #print(name)
+
+    if event.event_type != keyboard.KEY_UP or name not in data.triggers:
+        return
+
+    for data__key,data__value in data.replacements.items():
+
+        if string.endswith(data__key):
+            replace(data__key,data__value)
+            data.events = []
+            print('clearing events')
+
+keyboard.hook(handler)
 
 keyboard.wait()

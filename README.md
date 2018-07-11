@@ -28,10 +28,10 @@ fetch **flimsy.py**:
 wget https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.py
 ```
 
-create **aliases.json** (put this e.g. inside your dropbox):
+create **flimsy.json** (put this e.g. inside your dropbox):
 ```json
 {
-    "trigger": "space",
+    "trigger": "ctrl",
     "autoenter": false,
     "timeout": 60,
     "data": {
@@ -54,7 +54,7 @@ create **aliases.json** (put this e.g. inside your dropbox):
 
 and throw this inside your autostart:
 ```bash
-python ~/path/to/flimsy.py ~/path/to/aliases.json &
+python ~/path/to/flimsy.py ~/path/to/flimsy.json &
 ```
 
 now get the party started:
