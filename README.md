@@ -2,7 +2,7 @@
 
 flimsy is a cross-platform text expander for lazy programmers written in python.
 
-it intentionally reveal whats behind your aliases so that you know whats going on.
+it intentionally reveals whats behind your aliases so that you know whats going on.
 
 ## supports
 
@@ -18,9 +18,10 @@ it intentionally reveal whats behind your aliases so that you know whats going o
 
 ## installation
 
-install the awesome [keyboard](https://github.com/boppreh/keyboard) package with:
+install the awesome [keyboard](https://github.com/boppreh/keyboard) and [pyperclip](https://github.com/asweigart/pyperclip) packages with:
 ```bash
 pip install keyboard
+pip install pyperclip
 ```
 
 fetch **flimsy.py**:
