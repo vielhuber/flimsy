@@ -1,4 +1,5 @@
 import keyboard
+import pyperclip
 from time import sleep
 
 class _State(object): pass
@@ -12,9 +13,14 @@ def addAbbreviation(word, target):
     def callback():
         for x in range((len(word)+1)):       
             keyboard.send('backspace')
-        keyboard.write(replacement, 0, True, True)
+            sleep(0.01)
+        pyperclip.copy('The text to be copied to the clipboard. with "fucking" umlauts;;;;;')
+        keyboard.send('ctrl+shift+v')
+        # on linux use "False"
+        # on mac/windows use "True"
+        #keyboard.write(replacement, 0.01, True, False)
 
-    triggers=['right ctrl']
+    triggers=[' ','space','right ctrl','ctrl','command']
     match_suffix=True,
     timeout=60
 
@@ -26,9 +32,11 @@ def addAbbreviation(word, target):
 
         name = event.name
 
+        #print(name)
+
         events.append(event)
 
-        if event.event_type == keyboard.KEY_UP or name in keyboard.all_modifiers:
+        if event.event_type == keyboard.KEY_UP or (name in keyboard.all_modifiers and name not in triggers):
             return
 
         if timeout and event.time - state.time > timeout:
@@ -39,7 +47,7 @@ def addAbbreviation(word, target):
 
         state.time = event.time
 
-        print(list(keyboard.get_typed_strings(events)))
+        #print(list(keyboard.get_typed_strings(events)))
 
         matched = state.current == word or (match_suffix and state.current.endswith(word))
 
