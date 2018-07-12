@@ -47,8 +47,6 @@ def handler(event):
 
     if event.event_type == keyboard.KEY_UP and name not in data.triggers:
         return
-    if name in keyboard.all_modifiers:
-        return
    
     string = ''.join(list(keyboard.get_typed_strings(data.events)))
     #print(list(keyboard.get_typed_strings(data.events)))
