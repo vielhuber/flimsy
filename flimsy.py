@@ -9,9 +9,9 @@ data = Data()
 data.events = []
 data.timeout = 5
 data.timer = None
-data.triggers = ['space','right ctrl','ctrl','command','strg-rechts']
+data.triggers = ['right ctrl','ctrl','command','strg-rechts']
 data.replacements = {
-    'gita': 'git add -A .; git commit ""; git push origin master;',
+    'gitu': 'git add -A .; git commit ""; git push origin master;',
     'iconr': '®',
     'iconc': '©',
     'cfix': 'clear:both;\ndisplay:table;\ncontent:""'
@@ -19,6 +19,7 @@ data.replacements = {
 
 def replace(source, target):
     #print((len(source)+1))
+    sleep(0.5)
     for x in range(len(source)):       
         keyboard.send('backspace')
         sleep(0.01)
@@ -48,10 +49,11 @@ def handler(event):
         return
     if name in keyboard.all_modifiers:
         return
-
-    #print(list(keyboard.get_typed_strings(data.events)))
+   
     string = ''.join(list(keyboard.get_typed_strings(data.events)))
-    print(string)
+    #print(list(keyboard.get_typed_strings(data.events)))
+    #print(string)
+    #print(name)
     #print(name)
 
     if event.event_type != keyboard.KEY_UP or name not in data.triggers:
