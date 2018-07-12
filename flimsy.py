@@ -25,10 +25,11 @@ def replace(source, target):
         sleep(0.01)
     pyperclip.copy(target)
     sleep(0.5)
+    print(platform.system())
     if platform.system() == 'Windows':
         keyboard.send('ctrl+v')
     if platform.system() == 'Darwin':
-        keyboard.send('ctrl+v')
+        keyboard.send('command+v')
     if platform.system() == 'Linux':
         keyboard.send('ctrl+shift+v')
 
