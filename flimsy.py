@@ -37,10 +37,11 @@ def replace(source, target):
         sleep(0.01)
     pyperclip.copy(target)
     sleep(0.5)
+    print(platform.system())
     if platform.system() == 'Windows':
         keyboard.send('ctrl+v')
     if platform.system() == 'Darwin':
-        keyboard.send('ctrl+v')
+        keyboard.send('command+v')
     if platform.system() == 'Linux':
         keyboard.send('ctrl+shift+v')
 
@@ -58,8 +59,6 @@ def handler(event):
     data.events.append(event)
 
     if event.event_type == keyboard.KEY_UP and name not in data.triggers:
-        return
-    if name in keyboard.all_modifiers:
         return
    
     string = ''.join(list(keyboard.get_typed_strings(data.events)))
