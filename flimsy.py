@@ -11,10 +11,22 @@ data.timeout = 5
 data.timer = None
 data.triggers = ['right ctrl','ctrl','command','strg-rechts']
 data.replacements = {
-    'gitu': 'git add -A .; git commit ""; git push origin master;',
-    'iconr': '®',
-    'iconc': '©',
-    'cfix': 'clear:both;\ndisplay:table;\ncontent:""'
+    "..2": "cd ../../",
+    "..3": "cd ../../../",
+    "..4": "cd ../../../../",
+    "..5": "cd ../../../../../",
+    "anim": "transition: all 0.25s ease-in-out;",
+    "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
+    "docroot": "$_SERVER['DOCUMENT_ROOT']",
+    "iconc": "©",
+    "iconr": "®",
+    "lorem": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+    "ls": "ls -haltr --color=auto",
+    "myip": "curl http://ipecho.net/plain",
+    "ndash": "–",
+    "please": "sudo !!",
+    "plus": "⁺",
+    "quote": "&bdquo;&ldquo; „“"
 }
 
 def replace(source, target):
@@ -40,7 +52,7 @@ def handler(event):
 
     if data.timer and event.time-data.timer > data.timeout:
         data.events = []
-        print('clearing events')
+        #print('clearing events')
     data.timer = event.time
 
     data.events.append(event)
@@ -64,7 +76,7 @@ def handler(event):
         if string.endswith(data__key):
             replace(data__key,data__value)
             data.events = []
-            print('clearing events')
+            #print('clearing events')
 
 keyboard.hook(handler)
 

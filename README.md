@@ -36,18 +36,26 @@ create **flimsy.json** (put this e.g. inside your dropbox):
     "autoenter": false,
     "timeout": 60,
     "data": {
-        "lorem": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        "docroot": "$_SERVER['DOCUMENT_ROOT']",
-        "quote": "&bdquo;&ldquo; „“",
+        "..2": "cd ../../",
+        "..3": "cd ../../../",
+        "..4": "cd ../../../../",
+        "..5": "cd ../../../../../",
         "anim": "transition: all 0.25s ease-in-out;",
-        "ndash": "–",
-        "plus": "⁺",
-        "iconr": "®",
-        "iconc": "©",
         "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
-        "gitr $a": "git add -A . && git commit -m \"$a\" && git push origin master",
+        "docroot": "$_SERVER['DOCUMENT_ROOT']",
         "gitr $a $b": "git add -A . && git commit -m \"$a\" && git push origin master && git tag -a \"$b\" -m \"$a\" && git push --tags",
-        "npm $a $b": "npm --no-git-tag-version version \"$b\" && npm publish && git add -A . && git commit -m \"$a\" && git push origin master && git tag -a \"$b\" -m \"$a\" && git push --tags"
+        "gitr $a": "git add -A . && git commit -m \"$a\" && git push origin master",
+        "iconc": "©",
+        "iconr": "®",
+        "lorem": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "ls": "ls -haltr --color=auto",
+        "mkdir $a": "mkdir -p \"$a\" && cd \"$a\"",
+        "myip": "curl http://ipecho.net/plain",
+        "ndash": "–",
+        "npm $a $b": "npm --no-git-tag-version version \"$b\" && npm publish && git add -A . && git commit -m \"$a\" && git push origin master && git tag -a \"$b\" -m \"$a\" && git push --tags",
+        "please": "sudo !!",
+        "plus": "⁺",
+        "quote": "&bdquo;&ldquo; „“"
     }
 }
 
