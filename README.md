@@ -20,8 +20,7 @@ it intentionally reveals whats behind your aliases so that you know whats going 
 
 install the awesome [keyboard](https://github.com/boppreh/keyboard) and [pyperclip](https://github.com/asweigart/pyperclip) packages with:
 ```bash
-pip install keyboard
-pip install pyperclip
+pip install keyboard pyperclip
 ```
 
 fetch **flimsy.py**:
