@@ -64,15 +64,11 @@ create **flimsy.json** (put this e.g. inside your dropbox):
 
 and throw this inside your autostart:
 
-### mac/linux
-
 ```bash
+# mac/linux
 sudo python ~/path/to/flimsy.py ~/path/to/flimsy.json &
-```
 
-### windows
-
-```batch
+# windows
 pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json
 ```
 
