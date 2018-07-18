@@ -63,8 +63,15 @@ create **flimsy.json** (put this e.g. inside your dropbox):
 ```
 
 and throw this inside your autostart:
+
+mac/linux
 ```bash
-python ~/path/to/flimsy.py ~/path/to/flimsy.json &
+sudo python path/to/flimsy.py path/to/flimsy.json &
+```
+
+windows
+```bash
+pythonw path/to/flimsy.py path/to/flimsy.json
 ```
 
 now get the party started:

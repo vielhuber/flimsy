@@ -3,38 +3,36 @@ import pyperclip
 from time import sleep
 import platform
 import sys
+import json
+from pprint import pprint
+import os.path
 
 class Data(object): pass
 
+if len(sys.argv) != 2:
+    print('filename missing')
+    sys.exit()
+
+if not os.path.isfile(sys.argv[1]):
+    print('file missing')
+    sys.exit()
+
+with open(sys.argv[1], encoding='utf-8') as config_file:
+    config = json.load(config_file)
+
 data = Data()
 data.events = []
-data.timeout = 5
+data.timeout = config['timeout']
+data.autoenter = config['autoenter']
 data.timer = None
-data.triggers = ['right ctrl','ctrl','command','strg-rechts']
-data.replacements = {
-    "..2": "cd ../../",
-    "..3": "cd ../../../",
-    "..4": "cd ../../../../",
-    "..5": "cd ../../../../../",
-    "anim": "transition: all 0.25s ease-in-out;",
-    "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
-    "docroot": "$_SERVER['DOCUMENT_ROOT']",
-    "gitp": "git add -A . && git commit -m \".\" && git push origin HEAD",
-    "gitp $a": "git add -A . && git commit -m \"$a\" && git push origin HEAD",
-    "gitt $a $b": "git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags",
-    "iconc": "©",
-    "iconr": "®",
-    "lorem": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-    "ls": "ls -haltr --color=auto",
-    "mkdir $a": "mkdir -p \"$a\" && cd \"$a\"",
-    "myip": "curl http://ipecho.net/plain",
-    "ndash": "–",
-    "npm $a $b": "npm --no-git-tag-version version \"$b\" && npm publish && git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags",
-    "please": "sudo !!",
-    "plus": "⁺",
-    "quote": "&bdquo;&ldquo; „“",
-    "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\""
-}
+
+if config['trigger'] == 'ctrl':
+    data.triggers = ['right ctrl','ctrl','command','strg-rechts']
+else:
+    print('no support for that trigger')
+    sys.exit()
+
+data.replacements = config['data']
 
 def replaceNow(source, target):
     #print((len(source)+1))
@@ -51,6 +49,9 @@ def replaceNow(source, target):
         keyboard.send('command+v')
     if platform.system() == 'Linux':
         keyboard.send('ctrl+shift+v')
+    if( data.autoenter == True ):
+        sleep(0.5)
+        keyboard.send('enter')
 
 def handler(event):
 
