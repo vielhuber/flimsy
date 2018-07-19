@@ -42,6 +42,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "anim": "transition: all 0.25s ease-in-out;",
         "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
         "docroot": "$_SERVER['DOCUMENT_ROOT']",
+        "find $a": "find . -type f -name \"$a\" 2>/dev/null",
         "gitp": "git add -A . && git commit -m \".\" && git push origin HEAD",
         "gitp $a": "git add -A . && git commit -m \"$a\" && git push origin HEAD",
         "gitt": "git describe --tags",
