@@ -61,8 +61,11 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\""
     }
 }
-
 ```
+
+now get the party started:
+
+![demo](https://media.giphy.com/media/qPa9vUYCUrx6w/giphy.gif)
 
 ## autostart
 
@@ -75,7 +78,6 @@ echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/
 ```
 
 now add ```sudo /usr/bin/flimsy-startup.sh``` in your startup programs of your desktop environment.
-```
 
 ### mac
 
@@ -85,7 +87,3 @@ TODO
 
 add ```pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json``` to your task scheduler.
 ```
-
-now get the party started:
-
-![demo](https://media.giphy.com/media/qPa9vUYCUrx6w/giphy.gif)
