@@ -81,7 +81,7 @@ now add ```sudo /usr/bin/flimsy-startup.sh``` in your startup programs of your d
 
 ### windows
 
-add ```pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json``` to your task scheduler.
+add ```pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json``` to your windows task scheduler.
 
 ### mac
 
