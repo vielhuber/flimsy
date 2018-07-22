@@ -85,4 +85,10 @@ add ```pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json``` to your windows ta
 
 ### mac
 
-TODO
+```bash
+echo "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3 /path/to/flimsy.py /path/to/flimsy.json &" | sudo tee -a /usr/bin/flimsy-startup.sh
+sudo chmod +x /usr/bin/flimsy-startup.sh
+echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/sudoers
+```
+
+now run ```sudo /usr/bin/flimsy-startup.sh``` via [Automator](https://stackoverflow.com/a/6445525/2068362) on every startup.
