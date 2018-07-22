@@ -4,6 +4,10 @@ flimsy is a cross-platform text expander for lazy programmers written in python.
 
 it intentionally reveals whats behind your aliases so that you know whats going on.
 
+lets get the party started:
+
+![demo](https://media.giphy.com/media/qPa9vUYCUrx6w/giphy.gif)
+
 ## supports
 
 * windows
@@ -63,10 +67,6 @@ create **flimsy.json** (put this e.g. inside your dropbox):
 }
 ```
 
-now get the party started:
-
-![demo](https://media.giphy.com/media/qPa9vUYCUrx6w/giphy.gif)
-
 ## autostart
 
 ### linux
@@ -86,4 +86,3 @@ TODO
 ### windows
 
 add ```pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json``` to your task scheduler.
-```
