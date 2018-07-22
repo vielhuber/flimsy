@@ -64,10 +64,9 @@ create **flimsy.json** (put this e.g. inside your dropbox):
 
 ```
 
-and throw this inside your autostart:
+## autostart
 
-```bash
-# linux
+### linux
 
 ```bash
 echo "python /path/to/flimsy.py /path/to/flimsy.json &" | sudo tee -a /usr/bin/flimsy-startup.sh
@@ -75,15 +74,16 @@ sudo chmod +x /usr/bin/flimsy-startup.sh
 echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/sudoers
 ```
 
-now add "sudo /usr/bin/flimsy-startup.sh" in your startup programs of your desktop environment.
+now add ```sudo /usr/bin/flimsy-startup.sh``` in your startup programs of your desktop environment.
 ```
 
-# mac
-sudo python ~/path/to/flimsy.py ~/path/to/flimsy.json &
+### mac
 
-# windows
+TODO
 
-add "pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json" to your task scheduler.
+### windows
+
+add ```pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json``` to your task scheduler.
 ```
 
 now get the party started:
