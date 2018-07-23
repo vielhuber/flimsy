@@ -70,9 +70,16 @@ def handler(event):
         return
    
     command = ''.join(list(keyboard.get_typed_strings(data.events)))
-
+    
     if event.event_type != keyboard.KEY_UP or name not in data.triggers:
         return
+
+    # on macos " is considered as 2; fix this!
+    if platform.system() == 'Darwin' and command.find(' 2') > -1:
+        command = command.replace(' 2',' "')
+        command = command.replace('2 ','" ')
+        if command.rfind('2') == (len(command)-1):
+            command = command.replace('2','"', (len(command)-1))
 
     for data__key,data__value in data.replacements.items():
 
