@@ -91,4 +91,4 @@ sudo chmod +x /usr/bin/flimsy-startup.sh
 echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/sudoers
 ```
 
-now run ```sudo /usr/bin/flimsy-startup.sh``` via [Automator](https://stackoverflow.com/a/6445525/2068362) on every startup.
+now run ```sleep 10; sudo /usr/bin/flimsy-startup.sh``` via [Automator](https://stackoverflow.com/a/6445525/2068362) on every startup.
