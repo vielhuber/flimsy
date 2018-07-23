@@ -55,7 +55,7 @@ def replaceNow(source, target):
 
 def handler(event):
 
-    global data;
+    global data
 
     name = event.name
 
