@@ -36,33 +36,32 @@ create **flimsy.json** (put this e.g. inside your dropbox):
 ```json
 {
     "trigger": "ctrl",
-    "autoenter": false,
     "timeout": 60,
     "data": {
-        "..2": "cd ../../",
-        "..3": "cd ../../../",
-        "..4": "cd ../../../../",
-        "..5": "cd ../../../../../",
+        "..2": "cd ../../\r",
+        "..3": "cd ../../../\r",
+        "..4": "cd ../../../../\r",
+        "..5": "cd ../../../../../\r",
         "anim": "transition: all 0.25s ease-in-out;",
         "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
         "docroot": "$_SERVER['DOCUMENT_ROOT']",
-        "find $a": "find . -type f -name \"$a\" 2>/dev/null",
-        "gitp": "git add -A . && git commit -m \".\" && git push origin HEAD",
-        "gitp $a": "git add -A . && git commit -m \"$a\" && git push origin HEAD",
-        "gitt": "git describe --tags",
-        "gitt $a $b": "git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags",
+        "find $a": "find . -type f -name \"$a\" 2>/dev/null\r",
+        "gitu $a $b": "git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags\r",
+        "gitu $a": "git add -A . && git commit -m \"$a\" && git push origin HEAD\r",
+        "gitu": "git add -A . && git commit -m \".\" && git push origin HEAD\r",
+        "gitt": "git describe --tags\r",
         "iconc": "©",
         "iconr": "®",
         "lorem": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        "ls": "ls -haltr --color=auto",
-        "mkdir $a": "mkdir -p \"$a\" && cd \"$a\"",
-        "myip": "curl http://ipecho.net/plain",
+        "ls": "ls -haltr --color=auto\r",
+        "mkdir $a": "mkdir -p \"$a\" && cd \"$a\"\r",
+        "myip": "curl http://ipecho.net/plain\r",
         "ndash": "–",
-        "npm $a $b": "npm --no-git-tag-version version \"$b\" && npm publish && git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags",
-        "please": "sudo !!",
+        "npmu $a $b": "npm --no-git-tag-version version \"$b\" && npm publish && git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags\r",
+        "please": "sudo !!\r",
         "plus": "⁺",
         "quote": "&bdquo;&ldquo; „“",
-        "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\""
+        "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r"
     }
 }
 ```

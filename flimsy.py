@@ -23,7 +23,6 @@ with open(sys.argv[1], encoding='utf-8') as config_file:
 data = Data()
 data.events = []
 data.timeout = config['timeout']
-data.autoenter = config['autoenter']
 data.timer = None
 
 if config['trigger'] == 'ctrl':
@@ -40,6 +39,12 @@ def replaceNow(source, target):
     for x in range(len(source)):       
         keyboard.send('backspace')
         sleep(0.01)
+    
+    autoenter = False
+    if target.rfind('\r') == len(target)-1:
+        target = target.replace('\r','',target.rfind('\r'))
+        autoenter = True
+
     pyperclip.copy(target)
     sleep(0.5)
     #print(platform.system())
@@ -49,7 +54,7 @@ def replaceNow(source, target):
         keyboard.send('command+v')
     if platform.system() == 'Linux':
         keyboard.send('ctrl+shift+v')
-    if( data.autoenter == True ):
+    if( autoenter == True ):
         sleep(0.5)
         keyboard.send('enter')
 
