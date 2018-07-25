@@ -2,12 +2,11 @@
 
 > know what's behind your aliases.™
 
-it intentionally reveals whats behind your aliases so that you know whats going on.
-
 flimsy is a cross-platform text expander for lazy programmers written in python.
 
+it intentionally reveals whats behind your aliases so that you know whats going on.
 
-lets get the party started:
+let's get the party started:
 
 ![demo](https://media.giphy.com/media/qPa9vUYCUrx6w/giphy.gif)
 
@@ -54,8 +53,6 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gitu $a": "git add -A . && git commit -m \"$a\" && git push origin HEAD\r",
         "gitu": "git add -A . && git commit -m \".\" && git push origin HEAD\r",
         "gitt": "git describe --tags\r",
-        "iconc": "©",
-        "iconr": "®",
         "lorem": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
         "42": "____________/\\\\\\_______/\\\\\\\\\\\\\\\\\\_____________\n___________/\\\\\\\\\\_____/\\\\\\///////\\\\\\__________\n__________/\\\\\\/\\\\\\____\\///______\\//\\\\\\________\n_________/\\\\\\/\\/\\\\\\______________/\\\\\\/________\n________/\\\\\\/__\\/\\\\\\___________/\\\\\\//_________\n_______/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\//___________\n_______\\///////////\\\\\\//____/\\\\\\/_____________\n__________________\\/\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\__\n___________________\\///_____\\///////////////__",
         "ls": "ls -haltr --color=auto\r",
@@ -67,6 +64,8 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "plus": "⁺",
         "quote": "&bdquo;&ldquo; „“",
         "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
+        "iconc": "©",
+        "iconr": "®",
         "tm": "™",
         "e": "exit\r"
     }
