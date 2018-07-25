@@ -33,12 +33,19 @@ else:
 
 data.replacements = config['data']
 
+if platform.system() == 'Windows':
+    data.delay = 0.15
+if platform.system() == 'Darwin':
+    data.delay = 0.75
+if platform.system() == 'Linux':
+    data.delay = 1
+
 def replaceNow(source, target):
     #print((len(source)+1))
-    sleep(0.5)
+    sleep(0.5*data.delay)
     for x in range(len(source)):       
         keyboard.send('backspace')
-        sleep(0.01)
+        sleep(0.01*data.delay)
     
     autoenter = False
     if target.rfind('\r') == len(target)-1:
@@ -46,7 +53,7 @@ def replaceNow(source, target):
         autoenter = True
 
     pyperclip.copy(target)
-    sleep(0.5)
+    sleep(0.5*data.delay)
     #print(platform.system())
     if platform.system() == 'Windows':
         keyboard.send('ctrl+v')
@@ -55,7 +62,7 @@ def replaceNow(source, target):
     if platform.system() == 'Linux':
         keyboard.send('ctrl+shift+v')
     if( autoenter == True ):
-        sleep(0.5)
+        sleep(0.5*data.delay)
         keyboard.send('enter')
 
 def handler(event):

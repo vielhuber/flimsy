@@ -1,8 +1,11 @@
 # 🐨 flimsy 🐨
 
-flimsy is a cross-platform text expander for lazy programmers written in python.
+> know what's behind your aliases.™
 
 it intentionally reveals whats behind your aliases so that you know whats going on.
+
+flimsy is a cross-platform text expander for lazy programmers written in python.
+
 
 lets get the party started:
 
@@ -38,6 +41,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
     "trigger": "ctrl",
     "timeout": 60,
     "data": {
+        "..1": "cd ../../\r",
         "..2": "cd ../../\r",
         "..3": "cd ../../../\r",
         "..4": "cd ../../../../\r",
@@ -62,7 +66,9 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "please": "sudo !!\r",
         "plus": "⁺",
         "quote": "&bdquo;&ldquo; „“",
-        "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r"
+        "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
+        "tm": "™",
+        "e": "exit\r"
     }
 }
 ```
