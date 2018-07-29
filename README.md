@@ -8,7 +8,7 @@ it intentionally reveals whats behind your aliases so that you know whats going 
 
 let's get the party started:
 
-![demo](https://media.giphy.com/media/qPa9vUYCUrx6w/giphy.gif)
+![demo](https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.gif)
 
 ## supports
 
@@ -57,7 +57,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "42": "____________/\\\\\\_______/\\\\\\\\\\\\\\\\\\_____________\n___________/\\\\\\\\\\_____/\\\\\\///////\\\\\\__________\n__________/\\\\\\/\\\\\\____\\///______\\//\\\\\\________\n_________/\\\\\\/\\/\\\\\\______________/\\\\\\/________\n________/\\\\\\/__\\/\\\\\\___________/\\\\\\//_________\n_______/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\//___________\n_______\\///////////\\\\\\//____/\\\\\\/_____________\n__________________\\/\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\__\n___________________\\///_____\\///////////////__",
         "ls": "ls -haltr --color=auto\r",
         "mkdir $a": "mkdir -p \"$a\" && cd \"$a\"\r",
-        "myip": "curl http://ipecho.net/plain\r",
+        "myip": "curl http://ipecho.net/plain; echo\r",
         "ndash": "–",
         "npmu $a $b": "npm --no-git-tag-version version \"$b\" && npm publish && git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags\r",
         "please": "sudo !!\r",
