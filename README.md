@@ -2,13 +2,8 @@
 
 > know what's behind your aliases.™
 
-flimsy is a cross-platform text expander for lazy programmers written in python.
-
+flimsy is a cross-platform text expander for lazy programmers written in python.  
 it intentionally reveals whats behind your aliases so that you know whats going on.
-
-let's get the party started:
-
-![demo](https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.gif)
 
 ## supports
 
@@ -97,3 +92,9 @@ echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/
 ```
 
 now run ```sleep 10s; sudo /usr/bin/flimsy-startup.sh &>/dev/null &``` via [Automator](https://stackoverflow.com/a/6445525/2068362) on every startup.
+
+### demo
+
+let's get the party started:
+
+![demo](https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.gif)
