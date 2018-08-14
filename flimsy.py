@@ -120,7 +120,7 @@ def handler(event):
             target[len(target)-1] += char
 
         # special case: one is allowed to omit quotes when only one placeholder is available
-        if len(source) != len(target) and len(source) == 2 and source[1] == '$a':
+        if len(source) < len(target) and len(source) == 2 and source[1] == '$a':
             new_target = []
             new_target.append(target[0])
             del target[0]
