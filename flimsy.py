@@ -52,6 +52,7 @@ def replaceNow(source, target):
         target = target.replace('\r','',target.rfind('\r'))
         autoenter = True
 
+    curClipboard = pyperclip.paste()
     pyperclip.copy(target)
     sleep(0.5*data.delay)
     #print(platform.system())
@@ -64,6 +65,8 @@ def replaceNow(source, target):
     if( autoenter == True ):
         sleep(0.5*data.delay)
         keyboard.send('enter')
+    sleep(1)
+    pyperclip.copy(curClipboard)
 
 def handler(event):
 
