@@ -59,6 +59,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "ndash": "–",
         "npmu $a $b": "npm --no-git-tag-version version \"$b\" && npm publish && git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags\r",
         "please": "sudo !!\r",
+        "gfy": "Thanks for your valuable feedback.",
         "plus": "⁺",
         "quote": "&bdquo;&ldquo; „“",
         "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
