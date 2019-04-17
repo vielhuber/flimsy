@@ -66,6 +66,8 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gfy": "Thanks for your valuable feedback.",
         "plus": "⁺",
         "quote": "&bdquo;&ldquo; „“",
+        "unzip": "unzip file.zip -d .; rm -f file.zip",
+        "zip": "zip -r file.zip .",
         "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
         "iconc": "©",
         "iconr": "®",
