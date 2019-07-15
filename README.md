@@ -71,6 +71,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "quote": "&bdquo;&ldquo; „“",
         "unzip": "unzip file.zip -d .; rm -f file.zip",
         "zip": "zip -r file.zip .",
+        "kill $a": "killall -KILL $a",
         "ssh customer-xy": "ssh -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
         "id_rsa": "ssh-rsa AAAAB3NzaC1y...........................................................................................................................................................................................................................................................................................................................................................................................",
         "iconc": "©",
