@@ -49,7 +49,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gitu": "git add -A . && git commit -m \".\" && git push origin HEAD\r",
         "gitrm $a": "git rm -rf --cached \"$a\"",
         "gitt": "git describe --tags\r",
-        "gits": "git status -sb\r",
+        "gits": "git status -sbu\r",
         "git statusall": "find . -type d -name '.git' | while read dir ; do sh -c \"if [ -z \\\"$(cd $dir/../ && git status --porcelain)\\\" ]; then tput setaf 2 && echo \\\"${dir//\\.git/} clean\\\"; else tput setaf 1 && echo \\\"${dir//\\.git/} modified\\\"; fi\" ; done\r",
         "git reset": "git reset --hard HEAD && git clean -fdx",
         "gitl": "git log --graph --abbrev-commit --decorate --format=format:\"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)\" --all\r",
