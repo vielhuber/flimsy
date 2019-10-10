@@ -7,29 +7,33 @@ it intentionally reveals whats behind your aliases so that you know whats going 
 
 ## supports
 
-* windows
-* mac
-* linux
+-   windows
+-   mac
+-   linux
 
 ## features
 
-* easy json configuration file
-* enhance your aliases with placeholders
-* works in every environment (even on remote ssh sessions)
+-   easy json configuration file
+-   enhance your aliases with placeholders
+-   works in every environment (even on remote ssh sessions)
+-   also supports hotkey support to open programs and scripts
 
 ## installation
 
-install the awesome [keyboard](https://github.com/boppreh/keyboard) and [pyperclip](https://github.com/asweigart/pyperclip) packages with:
+install the awesome [keyboard](https://github.com/boppreh/keyboard), [pyperclip](https://github.com/asweigart/pyperclip) and [subprocess.run](https://pypi.org/project/subprocess.run/) packages with:
+
 ```bash
-pip install keyboard pyperclip
+pip install keyboard pyperclip subprocess.run
 ```
 
 fetch **flimsy.py**:
+
 ```bash
 wget https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.py
 ```
 
 create **flimsy.json** (put this e.g. inside your dropbox):
+
 ```json
 {
     "trigger": "ctrl",
@@ -81,6 +85,13 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "iconr": "®",
         "tm": "™",
         "e": "exit\r"
+    },
+    "hotkeys": {
+        "windows": {
+            "ctrl+f1": "C:\\Users\\David\\AppData\\Roaming\\Spotify\\Spotify.exe",
+            "ctrl+f2": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+            "ctrl+f3": ["script", "-argument1 -argument2"]
+        }
     }
 }
 ```
@@ -95,11 +106,11 @@ sudo chmod +x /usr/bin/flimsy-startup.sh
 echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/sudoers
 ```
 
-now add ```sudo /usr/bin/flimsy-startup.sh``` in your startup programs of your desktop environment.
+now add `sudo /usr/bin/flimsy-startup.sh` in your startup programs of your desktop environment.
 
 ### windows
 
-add ```pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json``` to your windows task scheduler.
+add `pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json` to your windows task scheduler.
 
 ### mac
 
@@ -109,7 +120,7 @@ sudo chmod +x /usr/bin/flimsy-startup.sh
 echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/sudoers
 ```
 
-now run ```sleep 10s; sudo /usr/bin/flimsy-startup.sh &>/dev/null &``` via [Automator](https://stackoverflow.com/a/6445525/2068362) on every startup.
+now run `sleep 10s; sudo /usr/bin/flimsy-startup.sh &>/dev/null &` via [Automator](https://stackoverflow.com/a/6445525/2068362) on every startup.
 
 ### demo
 
