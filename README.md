@@ -16,7 +16,7 @@ it intentionally reveals whats behind your aliases so that you know whats going 
 -   easy json configuration file
 -   enhance your aliases with placeholders
 -   works in every environment (even on remote ssh sessions)
--   also supports hotkey support to open programs and scripts
+-   also supports defining hotkey (including suppression) to open programs and scripts
 
 ## installation
 
@@ -46,6 +46,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "..5": "cd ../../../../../\r",
         "anim": "transition: all 0.25s ease-in-out;",
         "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
+        "curling": "curl -sD - -o /dev/null https://www.",
         "docroot": "$_SERVER['DOCUMENT_ROOT']",
         "find $a": "find . -type f -name \"$a\" 2>/dev/null\r",
         "gitu $a $b": "git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags\r",
@@ -90,7 +91,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "windows": {
             "ctrl+f1": "C:\\Users\\David\\AppData\\Roaming\\Spotify\\Spotify.exe",
             "ctrl+f2": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-            "ctrl+f3": ["script", "-argument1 -argument2"]
+            "win+d": ["script", "-argument1 -argument2"]
         }
     }
 }
