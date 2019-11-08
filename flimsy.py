@@ -9,10 +9,8 @@ import os.path
 import subprocess
 import shlex
 
-
 class Data(object):
     pass
-
 
 if len(sys.argv) != 2:
     print('filename missing')
@@ -89,6 +87,9 @@ def handler(event):
     global data
 
     name = event.name
+
+    if name is None:
+        return;
 
     if data.timer and event.time-data.timer > data.timeout:
         data.events = []
@@ -175,9 +176,9 @@ def handler(event):
 
 
 keyboard.hook(handler)
+#keyboard.hook(print)
 
-
-def openProgram(command):
+def openProgram(hotkey, command):
     args = []
     if isinstance(command, str):
         args.append(command)
@@ -186,10 +187,15 @@ def openProgram(command):
         for parameters__value in shlex.split(command[1]):
             args.append(parameters__value)
     subprocess.call(args)
-
+    # bugfix (https://github.com/boppreh/keyboard/issues/301)
+    keyboard.stash_state()
 
 if data.hotkeys != None:
     for hotkeys__key, hotkeys__value in data.hotkeys.items():
-        keyboard.add_hotkey(hotkeys__key, openProgram, args=[hotkeys__value])
+        # fix name for windows hot key
+        if( 'win+' in hotkeys__key ):
+            keyboard.add_hotkey('linke windows', lambda: None, suppress=True) # suppress windows key in general
+            hotkeys__key = hotkeys__key.replace('win+','linke windows+')
+        keyboard.add_hotkey(hotkeys__key, openProgram, args=[hotkeys__key, hotkeys__value], timeout=2, suppress=True, trigger_on_release=True)
 
 keyboard.wait()

@@ -16,7 +16,7 @@ it intentionally reveals whats behind your aliases so that you know whats going 
 -   easy json configuration file
 -   enhance your aliases with placeholders
 -   works in every environment (even on remote ssh sessions)
--   also supports defining hotkey (including suppression) to open programs and scripts
+-   also supports defining hotkeys (including suppression) to open programs and scripts
 
 ## installation
 
