@@ -194,7 +194,7 @@ if data.hotkeys != None:
     for hotkeys__key, hotkeys__value in data.hotkeys.items():
         # fix name for windows hot key
         if( 'win+' in hotkeys__key ):
-            keyboard.add_hotkey('linke windows', lambda: None, suppress=True) # suppress windows key in general
+            #keyboard.add_hotkey('linke windows', lambda: None, suppress=True) # suppress windows key in general
             hotkeys__key = hotkeys__key.replace('win+','linke windows+')
         keyboard.add_hotkey(hotkeys__key, openProgram, args=[hotkeys__key, hotkeys__value], timeout=2, suppress=True, trigger_on_release=True)
 

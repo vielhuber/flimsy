@@ -89,8 +89,8 @@ create **flimsy.json** (put this e.g. inside your dropbox):
     },
     "hotkeys": {
         "windows": {
-            "ctrl+f1": "C:\\Users\\David\\AppData\\Roaming\\Spotify\\Spotify.exe",
-            "ctrl+f2": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+            "ctrl+alt+s": "C:\\Users\\David\\AppData\\Roaming\\Spotify\\Spotify.exe",
+            "ctrl+alt+c": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
             "win+d": ["script", "-argument1 -argument2"]
         }
     }
