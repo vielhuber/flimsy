@@ -188,14 +188,31 @@ def openProgram(hotkey, command):
             args.append(parameters__value)
     subprocess.call(args)
     # bugfix (https://github.com/boppreh/keyboard/issues/301)
-    keyboard.stash_state()
+    # (not needed in our custom function)
+    #keyboard.stash_state()
 
+def customHotkey(event):
+    for hotkeys__key, hotkeys__value in data.hotkeys.items():
+        # fix name for windows hot key
+        if( 'win+' in hotkeys__key ):
+            hotkeys__key = hotkeys__key.replace('win+', 'linke windows+')
+        pressed = True
+        for split__value in hotkeys__key.split('+'):
+            if keyboard.is_pressed(split__value) == False:
+                pressed = False
+        if pressed == True:
+            openProgram(hotkeys__key, hotkeys__value)
+keyboard.hook(customHotkey)
+
+# the following solution is endlessly buggy (we implemented our own instead)
+"""
 if data.hotkeys != None:
     for hotkeys__key, hotkeys__value in data.hotkeys.items():
         # fix name for windows hot key
         if( 'win+' in hotkeys__key ):
             #keyboard.add_hotkey('linke windows', lambda: None, suppress=True) # suppress windows key in general
             hotkeys__key = hotkeys__key.replace('win+','linke windows+')
-        keyboard.add_hotkey(hotkeys__key, openProgram, args=[hotkeys__key, hotkeys__value], timeout=2, suppress=True, trigger_on_release=True)
+        keyboard.add_hotkey(hotkeys__key, openProgram, args=[hotkeys__key, hotkeys__value], timeout=0, suppress=False, trigger_on_release=True)
+"""
 
 keyboard.wait()
