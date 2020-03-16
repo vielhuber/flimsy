@@ -67,6 +67,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "call": "089215400142",
         "unicorn": "🦄",
         "heart": "❤️",
+        "infty": "∞",
         "smile": "😊",
         "thumbs": "👍",
         "ls -h": "ls -haltr --color=auto\r",
