@@ -48,6 +48,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
         "curling": "curl -sD - -o /dev/null https://www.",
         "docroot": "$_SERVER['DOCUMENT_ROOT']",
+        "composer": "require_once(__DIR__ . '/vendor/autoload.php');",
         "find $a": "find . -type f -name \"$a\" 2>/dev/null\r",
         "gitu $a $b": "git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a \"$b\" -m \"$a\" && git push --tags\r",
         "gitu $a": "git add -A . && git commit -m \"$a\" && git push origin HEAD\r",
