@@ -81,6 +81,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gfy": "Thanks for your valuable feedback.",
         "plus": "⁺",
         "quote": "&bdquo;&ldquo; „“",
+        "dotdotdot": "&hellip; …",
         "unzip": "unzip file.zip -d .; rm -f file.zip",
         "zip": "zip -r file.zip .",
         "kill $a": "killall -KILL $a",
