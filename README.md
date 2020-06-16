@@ -82,6 +82,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "infty": "∞",
         "smile": "😊",
         "thumbs": "👍",
+        "nbsp": " ",
         "ls -h": "ls -haltr --color=auto\r",
         "mkdir $a": "mkdir -p \"$a\" && cd \"$a\"\r",
         "myip": "curl http://ipecho.net/plain; echo\r",
