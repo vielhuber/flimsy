@@ -57,7 +57,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gitrm $a": "git rm -rf --cached \"$a\"",
         "gitt": "git describe --tags\r",
         "gits": "git status -sbu\r",
-        "git statusall": "find . -type d -name '.git' | while read dir ; do sh -c \"if [ -z \\\"$(cd $dir/../ && git status --porcelain)\\\" ]; then tput setaf 2 && echo \\\"${dir//\\.git/} clean\\\"; else tput setaf 1 && echo \\\"${dir//\\.git/} modified\\\"; fi\" ; done\r",
+        "git statusall": "find . -type d -name '.git' | sort -n | while read dir ; do sh -c \"if [ -z \\\"$(cd $dir/../ && git status --porcelain)\\\" ]; then tput setaf 2 && echo \\\"${dir//\\.git/} clean\\\"; else tput setaf 1 && echo \\\"${dir//\\.git/} modified\\\"; fi\" ; done\r",
         "wp updateall": "curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && php wp-cli.phar --allow-root cli cache clear && php wp-cli.phar --allow-root core update && php wp-cli.phar --allow-root core update-db && php wp-cli.phar --allow-root plugin update --all && php wp-cli.phar --allow-root theme update --all && php wp-cli.phar --allow-root language core update && php wp-cli.phar --allow-root language plugin update --all && php wp-cli.phar --allow-root language theme update --all && rm -f wp-cli.phar",
         "nah": "git reset --hard; git clean -df;",
         "gitl": "git log --graph --abbrev-commit --decorate --format=format:\"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)\" --all\r",
