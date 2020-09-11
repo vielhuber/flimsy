@@ -44,6 +44,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "..3": "cd ../../../\r",
         "..4": "cd ../../../../\r",
         "..5": "cd ../../../../../\r",
+        "cd $a": "{ cd /var/www/$a/wp-content/themes/$a; } || { cd /var/www/$a/wp-content/themes && ls; } || { cd /var/www/$a && ls; }\r",
         "anim": "transition: all 0.25s ease-in-out;",
         "cfix": "clear:both;\ndisplay:table;\ncontent:\"\"",
         "curling": "curl -sD - -o /dev/null https://www.",
