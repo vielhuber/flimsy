@@ -103,6 +103,10 @@ def handler(event):
 
     command = ''.join(list(keyboard.get_typed_strings(data.events)))
 
+    if event.name == 'enter':
+        data.events = []
+        # print('clearing events')
+
     if event.event_type != keyboard.KEY_UP or name not in data.triggers:
         return
 
