@@ -104,6 +104,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "dotdotdot": "&hellip; …",
         "unzip": "unzip file.zip -d .; rm -f file.zip",
         "zip": "zip -r file.zip .",
+        "df": "du -d 1 -xh . 2>/dev/null | sort -h -r | head -10\r",
         "kill $a": "killall -KILL $a",
         "wpscan": "wpscan --random-user-agent --disable-tls-checks --api-token xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --url https://www.domain.tld | grep '[!]'",
         "ssh host.tld": "ssh -o UserKnownHostsFile=/dev/null -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host.tld -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
