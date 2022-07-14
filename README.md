@@ -107,7 +107,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "zip": "zip -r file.zip .",
         "df": "du -d 1 -xh . 2>/dev/null | sort -h -r | head -10\r",
         "kill $a": "killall -KILL $a",
-        "wpscan": "wpscan --random-user-agent --disable-tls-checks --api-token xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --url https://www.domain.tld | grep '[!]'",
+        "wpscan": "wpscan --random-user-agent --disable-tls-checks --api-token xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --ignore-main-redirect --url https://www.domain.tld | grep '[!]'",
         "ssh host.tld": "ssh -o UserKnownHostsFile=/dev/null -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host.tld -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
         "ssh host-that-does-not-support-public-keys.tld": "sshpass -p 'XXXXXXXXXXXX' ssh -o UserKnownHostsFile=/dev/null -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host.tld -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
         "sql host.tld": "ssh -TNL 5001:/var/lib/mysql/mysql.sock username@host.tld\r",
