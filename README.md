@@ -110,7 +110,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "wpscan": "wpscan --random-user-agent --disable-tls-checks --api-token xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --ignore-main-redirect --url https://www.domain.tld | grep '[!]'",
         "ssh host.tld": "ssh -o UserKnownHostsFile=/dev/null -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host.tld -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
         "ssh host-that-does-not-support-public-keys.tld": "sshpass -p 'XXXXXXXXXXXX' ssh -o UserKnownHostsFile=/dev/null -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -p 22 -l username -i ~/.ssh/id_rsa host.tld -t \"echo 'rm /tmp/initfile; source ~/.bashrc; cd folder; git status' > /tmp/initfile; bash --init-file /tmp/initfile\"\r",
-        "sql host.tld": "ssh -TNL 5001:/var/lib/mysql/mysql.sock username@host.tld\r",
+        "sql host.tld": "ssh -o -UserKnownHostsFile=/dev/null -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -TNL 5001:/var/lib/mysql/mysql.sock username@host.tld\r",
         "id_rsa": "ssh-rsa AAAAB3NzaC1y...........................................................................................................................................................................................................................................................................................................................................................................................",
         "sshcopy": "cat ~/.ssh/id_rsa.pub | xclip\r",
         "iconc": "©",
