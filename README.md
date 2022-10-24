@@ -87,6 +87,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "infty": "∞",
         "smile": "😊",
         "thumbs": "👍",
+        "luck": "🍀",
         "coffee": "☕",
         "nbsp": " ",
         "ls -h": "ls -haltr --color=auto\r",
