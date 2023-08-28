@@ -84,6 +84,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "cls": "cd /var/www && clear\r",
         "unicorn": "🦄",
         "heart": "❤️",
+        "alert": "❗",
         "infty": "∞",
         "smile": "😊",
         "thumbs": "👍",
