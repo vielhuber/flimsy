@@ -59,6 +59,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gitt": "git describe --tags\r",
         "gits": "git status -sbu\r",
         "gitb $a": "git checkout -b $a && git push --set-upstream origin $a",
+        "git stash": "git stash -u; git stash pop",
         "git squash $a": "git merge \"$a\" && git push origin HEAD && git reset --soft \"$a\" && git add -A . && git commit -m \"squash\" && git pull --no-ff && git push origin HEAD",
         "git statusall": "find . -type d -name '.git' | sort -n | while read dir ; do sh -c \"if [ -z \\\"$(cd $dir/../ && git status --porcelain)\\\" ]; then tput setaf 2 && echo \\\"${dir//\\.git/} clean\\\"; else tput setaf 1 && echo \\\"${dir//\\.git/} modified\\\"; fi\" ; done\r",
         "git clean": "git clean -df;\r",
