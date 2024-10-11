@@ -56,6 +56,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gitu": "git add -A . && git commit -m \".\" && git push origin HEAD\r",
         "gitut $a": "git add -A . && git commit -m \"$a\" && git push origin HEAD && git tag -a $(v=`git describe --abbrev=0 --tags 2>/dev/null`;n=(${v//./ });n1=${n[0]};n2=${n[1]};n3=${n[2]};if [ -z \"$n1\" ] && [ -z \"$n2\" ] && [ -z \"$n3\" ]; then n1=1; n2=0; n3=0;else n3=$((n3+1)); fi;if [ \"$n3\" == \"10\" ]; then n3=0; n2=$((n2+1)); fi;if [ \"$n2\" == \"10\" ]; then n2=0; n1=$((n1+1)); fi;echo \"$n1.$n2.$n3\") -m \"$a\" && git push --tags\r",
         "gitrm $a": "git rm -rf --cached \"$a\"",
+        "gitt $a": "git tag -a \"$a\" -m \"\" && git push --tags",
         "gitt": "git describe --tags\r",
         "gits": "git status -sbu\r",
         "gitb $a": "git checkout -b $a && git push --set-upstream origin $a",
