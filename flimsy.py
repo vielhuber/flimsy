@@ -8,6 +8,7 @@ from pprint import pprint
 import os.path
 import subprocess
 import shlex
+from datetime import datetime
 
 class Data(object):
     pass
@@ -78,9 +79,9 @@ def replaceNow(source, target):
     if(autoenter == True):
         sleep(0.5*data.delay)
         keyboard.send('enter')
-    sleep(1)
+    sleep(0.25)
+    # restore clipboard
     pyperclip.copy(curClipboard)
-
 
 def handler(event):
 
@@ -196,6 +197,7 @@ def openProgram(hotkey, command):
     #keyboard.stash_state()
 
 def customHotkey(event):
+    #print(event)
     for hotkeys__key, hotkeys__value in data.hotkeys.items():
         # fix name for windows hot key
         if( 'win+' in hotkeys__key ):
@@ -203,9 +205,16 @@ def customHotkey(event):
         pressed = True
         for split__value in hotkeys__key.split('+'):
             if keyboard.is_pressed(split__value) == False:
+                #print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is not pressed')
                 pressed = False
+            else:
+                """
+                print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is pressed!')
+                """
         if pressed == True:
+            #print('starting program ', hotkeys__value)
             openProgram(hotkeys__key, hotkeys__value)
+
 keyboard.hook(customHotkey)
 
 # the following solution is endlessly buggy (we implemented our own instead)
