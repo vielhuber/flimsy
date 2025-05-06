@@ -205,14 +205,14 @@ def customHotkey(event):
         pressed = True
         for split__value in hotkeys__key.split('+'):
             if keyboard.is_pressed(split__value) == False:
-                #print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is not pressed')
+                print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is not pressed')
                 pressed = False
             else:
-                """
+                
                 print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is pressed!')
-                """
+                
         if pressed == True:
-            #print('starting program ', hotkeys__value)
+            print('starting program ', hotkeys__value)
             openProgram(hotkeys__key, hotkeys__value)
 
 keyboard.hook(customHotkey)
