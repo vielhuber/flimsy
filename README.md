@@ -137,6 +137,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "windows": {
             "ctrl+shift+s": "C:\\Users\\David\\AppData\\Roaming\\Spotify\\Spotify.exe",
             "ctrl+shift+c": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+            "f1": ["script", "-argument1 -argument2"],
             "win+d": ["script", "-argument1 -argument2"]
         }
     }
