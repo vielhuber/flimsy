@@ -97,6 +97,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "sun": "☀️",
         "star": "⭐",
         "infty": "∞",
+        "info": "ℹ️",
         "smile": "😊",
         "rocket": "🚀",
         "thumbs": "👍",
