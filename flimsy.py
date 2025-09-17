@@ -208,12 +208,17 @@ def customHotkey(event):
                 print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is not pressed')
                 pressed = False
             else:
-                
+
                 print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is pressed!')
-                
+
         if pressed == True:
+            try:
+                event.suppress_event = True
+            except:
+                pass
             print('starting program ', hotkeys__value)
             openProgram(hotkeys__key, hotkeys__value)
+            return False
 
 keyboard.hook(customHotkey)
 
