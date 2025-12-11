@@ -96,6 +96,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "ustid": "DE 000 000 000",
         "cls": "cd /var/www && clear\r",
         "unicorn": "🦄",
+        "robot": "🤖",
         "heart": "❤️",
         "alert": "❗",
         "wait": "⏳",
