@@ -30,7 +30,14 @@ data.timeout = config['timeout']
 data.timer = None
 
 if config['trigger'] == 'ctrl':
-    data.triggers = ['right ctrl', 'ctrl', 'command', 'strg-rechts', 'strg', 'alt gr']
+    data.triggers = []
+    data.triggers.append('ctrl')
+    data.triggers.append('right ctrl')
+    data.triggers.append('command')
+    data.triggers.append('strg')
+    data.triggers.append('strg-rechts')
+    if platform.system() != 'Windows':
+        data.triggers.append('alt gr')
 else:
     print('no support for that trigger')
     sys.exit()
