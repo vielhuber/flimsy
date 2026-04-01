@@ -1,3 +1,8 @@
+[![GitHub Tag](https://img.shields.io/github/v/tag/vielhuber/flimsy)](https://github.com/vielhuber/flimsy/tags)
+[![Code Style](https://img.shields.io/badge/code_style-psr--12-ff69b4.svg)](https://www.php-fig.org/psr/psr-12/)
+[![License](https://img.shields.io/github/license/vielhuber/flimsy)](https://github.com/vielhuber/flimsy/blob/main/LICENSE.md)
+[![Last Commit](https://img.shields.io/github/last-commit/vielhuber/flimsy)](https://github.com/vielhuber/flimsy/commits)
+
 # 🐨 flimsy 🐨
 
 > know what's behind your aliases.™
