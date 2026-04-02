@@ -77,6 +77,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "nah": "git reset --hard; git clean -df;",
         "gitl": "git log --graph --abbrev-commit --decorate --format=format:\"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)\" --all\r",
         "gscript": "clasp push --watch\r",
+        "claude": "IS_SANDBOX=1 claude --continue --dangerously-skip-permissions\r",
         "mcp": "nvm use --lts && DANGEROUSLY_OMIT_AUTH=true npx --yes @modelcontextprotocol/inspector\r",
         "ki": "Prüfe bitte die letzten Codeänderungen noch einmal sehr gründlich darauf, ob alles konsistent und vollständig umgesetzt wurde, ob dabei etwas übersehen, vergessen oder unbeabsichtigt verändert wurde und ob es irgendwo noch logische, funktionale oder strukturelle Probleme gibt.",
         "lorem": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.",
