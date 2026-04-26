@@ -16,6 +16,7 @@ LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log'
 try:
     logging.basicConfig(
         filename=LOG_PATH,
+        filemode='w',
         level=logging.INFO,
         format='%(asctime)s [%(levelname)s] %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S',
