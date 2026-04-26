@@ -1,28 +1,50 @@
+#!/usr/bin/env python3
 import keyboard
 import pyperclip
 from time import sleep
 import platform
 import sys
 import json
-from pprint import pprint
-import os.path
+import os
 import subprocess
 import shlex
-from datetime import datetime
+import logging
+import traceback
 
-class Data(object):
+# log everything next to flimsy.py so the user always finds it in the repo
+LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log')
+try:
+    logging.basicConfig(
+        filename=LOG_PATH,
+        level=logging.INFO,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+except Exception:
+    # if we cannot open the log file (permissions etc.), keep going silently
+    pass
+
+def log_exception(where):
+    # write a full traceback so silent hook-thread deaths become visible
+    logging.error('exception in %s: %s', where, traceback.format_exc())
+
+class Data:
     pass
 
 if len(sys.argv) != 2:
     print('filename missing')
-    sys.exit()
+    logging.error('startup aborted: filename missing')
+    sys.exit(1)
 
 if not os.path.isfile(sys.argv[1]):
     print('file missing')
-    sys.exit()
+    logging.error('startup aborted: config file %s not found', sys.argv[1])
+    sys.exit(1)
 
 with open(sys.argv[1], encoding='utf-8') as config_file:
     config = json.load(config_file)
+
+logging.info('flimsy starting on %s with config %s', platform.system(), sys.argv[1])
 
 data = Data()
 data.events = []
@@ -40,7 +62,8 @@ if config['trigger'] == 'ctrl':
         data.triggers.append('alt gr')
 else:
     print('no support for that trigger')
-    sys.exit()
+    logging.error('startup aborted: unsupported trigger %r', config['trigger'])
+    sys.exit(1)
 
 data.replacements = config['data']
 
@@ -69,12 +92,25 @@ def replaceNow(source, target):
         sleep(0.01*data.delay)
 
     autoenter = False
-    if target.rfind('\r') == len(target)-1:
-        target = target.replace('\r', '', target.rfind('\r'))
+    # only strip the trailing \r; the previous implementation passed rfind() as the
+    # replace-count which could wipe \r characters in the middle of the string too
+    if target.endswith('\r'):
+        target = target[:-1]
         autoenter = True
 
-    curClipboard = pyperclip.paste()
-    pyperclip.copy(target)
+    # protect the clipboard round-trip: pyperclip can raise on linux/wsl when
+    # xclip/xsel is missing or the wayland clipboard is busy, and an unhandled
+    # exception here kills the keyboard hook thread until restart
+    curClipboard = ''
+    try:
+        curClipboard = pyperclip.paste()
+    except Exception:
+        log_exception('replaceNow:pyperclip.paste')
+    try:
+        pyperclip.copy(target)
+    except Exception:
+        log_exception('replaceNow:pyperclip.copy')
+        return
     sleep(0.5*data.delay)
     # print(platform.system())
     if platform.system() == 'Windows':
@@ -83,21 +119,29 @@ def replaceNow(source, target):
         keyboard.send('command+v')
     if platform.system() == 'Linux':
         keyboard.send('ctrl+shift+v')
-    if(autoenter == True):
+    if autoenter:
         sleep(0.5*data.delay)
         keyboard.send('enter')
     sleep(0.25)
     # restore clipboard
-    pyperclip.copy(curClipboard)
+    try:
+        pyperclip.copy(curClipboard)
+    except Exception:
+        log_exception('replaceNow:pyperclip.copy(restore)')
 
 def handler(event):
+    # outer try/except ensures a single bad event cannot kill the keyboard
+    # listener thread (which made flimsy "stop working until restart")
+    try:
+        _handler_impl(event)
+    except Exception:
+        log_exception('handler')
 
-    global data
-
+def _handler_impl(event):
     name = event.name
 
     if name is None:
-        return;
+        return
 
     if data.timer and event.time-data.timer > data.timeout:
         data.events = []
@@ -174,13 +218,14 @@ def handler(event):
                 replace = False
                 break
 
-        if replace == False:
+        if not replace:
             continue
 
         for placeholder__key, placeholder__value in placeholder.items():
             final_command = final_command.replace(
                 placeholder__key, placeholder__value)
 
+        logging.info('replace match=%r placeholders=%r', data__key, placeholder)
         replaceNow(search_command, final_command)
         data.events = []
         # print('clearing events')
@@ -198,33 +243,59 @@ def openProgram(hotkey, command):
         args.append(command[0])
         for parameters__value in shlex.split(command[1]):
             args.append(parameters__value)
-    subprocess.call(args)
+    # use Popen instead of call so we don't block the keyboard hook thread
+    # while the launched program runs; the previous subprocess.call froze
+    # all hotkeys for as long as the spawned GUI was alive
+    try:
+        subprocess.Popen(args, close_fds=True)
+        logging.info('launched program %r', args)
+    except Exception:
+        log_exception('openProgram')
     # bugfix (https://github.com/boppreh/keyboard/issues/301)
     # (not needed in our custom function)
     #keyboard.stash_state()
 
+# remember which hotkey combos are currently in "fired" state so we only
+# trigger once per press instead of on every event while keys stay held
+data.hotkeys_fired = set()
+
 def customHotkey(event):
+    try:
+        _custom_hotkey_impl(event)
+    except Exception:
+        log_exception('customHotkey')
+
+def _custom_hotkey_impl(event):
+    if data.hotkeys is None:
+        return
     #print(event)
     for hotkeys__key, hotkeys__value in data.hotkeys.items():
+        original_key = hotkeys__key
         # fix name for windows hot key
-        if( 'win+' in hotkeys__key ):
+        if 'win+' in hotkeys__key:
             hotkeys__key = hotkeys__key.replace('win+', 'linke windows+')
         pressed = True
         for split__value in hotkeys__key.split('+'):
-            if keyboard.is_pressed(split__value) == False:
-                #print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is not pressed')
+            if not keyboard.is_pressed(split__value):
                 pressed = False
-            else:
-                print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), split__value, 'is pressed!')
+                break
 
-        if pressed == True:
+        if pressed:
+            # edge-trigger: only fire when the combo transitions from
+            # "not-all-pressed" to "all-pressed"
+            if original_key in data.hotkeys_fired:
+                continue
+            data.hotkeys_fired.add(original_key)
             try:
                 event.suppress_event = True
-            except:
+            except Exception:
                 pass
+            logging.info('hotkey fired: %s -> %r', original_key, hotkeys__value)
             print('starting program ', hotkeys__value)
             openProgram(hotkeys__key, hotkeys__value)
             return False
+        else:
+            data.hotkeys_fired.discard(original_key)
 
 keyboard.hook(customHotkey)
 

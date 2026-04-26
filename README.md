@@ -25,17 +25,40 @@ it intentionally reveals whats behind your aliases so that you know whats going 
 
 ## installation
 
-install the awesome [keyboard](https://github.com/boppreh/keyboard), [pyperclip](https://github.com/asweigart/pyperclip) and [subprocess.run](https://pypi.org/project/subprocess.run/) packages with:
+flimsy depends on the awesome [keyboard](https://github.com/boppreh/keyboard) and [pyperclip](https://github.com/asweigart/pyperclip) packages, pinned in `requirements.txt`.
+
+clone the repository (or fetch `flimsy.py` and `requirements.txt`):
 
 ```bash
-pip install keyboard pyperclip subprocess.run
+git clone https://github.com/vielhuber/flimsy.git
+cd flimsy
 ```
 
-fetch **flimsy.py**:
+create an isolated virtual environment and install the dependencies into it:
 
 ```bash
-wget https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.py
+# linux / mac
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# windows (powershell)
+python -m venv venv
+venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
+
+run flimsy from the venv:
+
+```bash
+# linux / mac (requires root for the keyboard hook)
+sudo venv/bin/python flimsy.py flimsy.json
+
+# windows
+venv\Scripts\python.exe flimsy.py flimsy.json
+```
+
+a log of every replacement, hotkey trigger and exception is written next to `flimsy.py` as `flimsy.log`.
 
 create **flimsy.json** (put this e.g. inside your dropbox):
 
@@ -168,10 +191,11 @@ create **flimsy.json** (put this e.g. inside your dropbox):
 
 ## update
 
-fetch **flimsy.py**:
+pull the latest version and reinstall the dependencies (in case `requirements.txt` changed):
 
 ```bash
-wget -O flimsy.py https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.py
+git pull
+venv/bin/pip install -r requirements.txt   # windows: venv\Scripts\pip install -r requirements.txt
 ```
 
 ## autostart
@@ -179,7 +203,7 @@ wget -O flimsy.py https://raw.githubusercontent.com/vielhuber/flimsy/master/flim
 ### linux
 
 ```bash
-echo "python /path/to/flimsy.py /path/to/flimsy.json &" | sudo tee -a /usr/bin/flimsy-startup.sh
+echo "/path/to/flimsy/venv/bin/python /path/to/flimsy/flimsy.py /path/to/flimsy/flimsy.json &" | sudo tee -a /usr/bin/flimsy-startup.sh
 sudo chmod +x /usr/bin/flimsy-startup.sh
 echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/sudoers
 ```
@@ -188,12 +212,12 @@ now add `sudo /usr/bin/flimsy-startup.sh` in your startup programs of your deskt
 
 ### windows
 
-add `pythonw C:\path\to\flimsy.py C:\path\to\flimsy.json` to your windows task scheduler.
+add `C:\path\to\flimsy\venv\Scripts\pythonw.exe C:\path\to\flimsy\flimsy.py C:\path\to\flimsy\flimsy.json` to your windows task scheduler.
 
 ### mac
 
 ```bash
-echo "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3 /path/to/flimsy.py /path/to/flimsy.json &" | sudo tee -a /usr/bin/flimsy-startup.sh
+echo "/path/to/flimsy/venv/bin/python /path/to/flimsy/flimsy.py /path/to/flimsy/flimsy.json &" | sudo tee -a /usr/bin/flimsy-startup.sh
 sudo chmod +x /usr/bin/flimsy-startup.sh
 echo "ALL ALL = (root) NOPASSWD: /usr/bin/flimsy-startup.sh" | sudo tee -a /etc/sudoers
 ```

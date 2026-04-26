@@ -1,1 +1,4 @@
 flimsy.json
+flimsy.log
+venv/
+__pycache__/
