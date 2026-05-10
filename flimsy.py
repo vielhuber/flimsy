@@ -9,25 +9,25 @@ import os
 import subprocess
 import shlex
 import logging
-import traceback
 
 # log everything next to flimsy.py so the user always finds it in the repo
-LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log')
-try:
-    logging.basicConfig(
-        filename=LOG_PATH,
-        filemode='w',
-        level=logging.INFO,
-        format='%(asctime)s [%(levelname)s] %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S',
-    )
-except Exception:
-    # if we cannot open the log file (permissions etc.), keep going silently
-    pass
+# LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log')
+# try:
+#     logging.basicConfig(
+#         filename=LOG_PATH,
+#         filemode='w',
+#         level=logging.INFO,
+#         format='%(asctime)s [%(levelname)s] %(message)s',
+#         datefmt='%Y-%m-%d %H:%M:%S',
+#     )
+# except Exception:
+#     # if we cannot open the log file (permissions etc.), keep going silently
+#     pass
 
 def log_exception(where):
     # write a full traceback so silent hook-thread deaths become visible
-    logging.error('exception in %s: %s', where, traceback.format_exc())
+    # logging.error('exception in %s: %s', where, traceback.format_exc())
+    pass
 
 class Data:
     pass
