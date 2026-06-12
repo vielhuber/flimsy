@@ -12,9 +12,9 @@ it intentionally reveals whats behind your aliases so that you know whats going 
 
 ## supports
 
+-   linux
 -   windows
 -   mac
--   linux
 
 ## features
 
@@ -100,7 +100,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "nah": "git reset --hard; git clean -df;",
         "gitl": "git log --graph --abbrev-commit --decorate --format=format:\"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)\" --all\r",
         "gscript": "clasp push --watch\r",
-        "claude": "IS_SANDBOX=1 claude --continue --dangerously-skip-permissions --effort high\r",
+        "claude": "IS_SANDBOX=1 claude $(ls \"$HOME/.claude/projects/$(pwd | sed \"s|[^a-zA-Z0-9]|-|g\")\"/*.jsonl &>/dev/null && echo --continue) --model claude-fable-5 --dangerously-skip-permissions --effort high\r",
         "codex": "codex resume --last --yolo -c model_reasoning_effort="high"\r",
         "mcp": "nvm use --lts && DANGEROUSLY_OMIT_AUTH=true npx --yes @modelcontextprotocol/inspector\r",
         "ai": "Prüfe die letzten Codeänderungen noch einmal sehr gründlich (lies dazu den tatsächlichen Diff bzw. die geänderten Dateien, verlasse dich nicht nur auf dein Gedächtnis): Wurde alles konsistent und vollständig umgesetzt? Wurde etwas übersehen, vergessen oder unbeabsichtigt verändert? Gibt es logische, funktionale oder strukturelle Probleme? Korrigiere alle gefundenen Probleme direkt und vollständig. Fasse danach nur kurz zusammen, was du korrigiert hast – oder bestätige, dass nichts zu beanstanden war.\r",
