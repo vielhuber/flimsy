@@ -9,36 +9,77 @@ import os
 import subprocess
 import shlex
 import logging
+import traceback
+import atexit
+import signal
 
 # log everything next to flimsy.py so the user always finds it in the repo
-# LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log')
-# try:
-#     logging.basicConfig(
-#         filename=LOG_PATH,
-#         filemode='w',
-#         level=logging.INFO,
-#         format='%(asctime)s [%(levelname)s] %(message)s',
-#         datefmt='%Y-%m-%d %H:%M:%S',
-#     )
-# except Exception:
-#     # if we cannot open the log file (permissions etc.), keep going silently
-#     pass
+LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log')
+try:
+    logging.basicConfig(
+        filename=LOG_PATH,
+        filemode='a',
+        level=logging.INFO,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+except Exception:
+    # if we cannot open the log file (permissions etc.), keep going silently
+    pass
+
+shutdown_reason = 'normal shutdown'
+
+def set_shutdown_reason(reason):
+    global shutdown_reason
+    shutdown_reason = reason
+
+def log_shutdown():
+    logging.info('flimsy stopped: %s', shutdown_reason)
+    logging.shutdown()
+
+atexit.register(log_shutdown)
 
 def log_exception(where):
     # write a full traceback so silent hook-thread deaths become visible
-    # logging.error('exception in %s: %s', where, traceback.format_exc())
-    pass
+    logging.error('exception in %s: %s', where, traceback.format_exc())
+
+def log_uncaught_exception(exception_type, exception, traceback_value):
+    set_shutdown_reason('uncaught exception')
+    logging.error(
+        'uncaught exception',
+        exc_info=(exception_type, exception, traceback_value)
+    )
+    sys.__excepthook__(exception_type, exception, traceback_value)
+
+sys.excepthook = log_uncaught_exception
+
+def handle_shutdown_signal(signal_number, frame):
+    try:
+        signal_name = signal.Signals(signal_number).name
+    except ValueError:
+        signal_name = str(signal_number)
+    set_shutdown_reason('signal ' + signal_name)
+    logging.info('flimsy received signal %s', signal_name)
+    sys.exit(0)
+
+for shutdown_signal in [signal.SIGINT, signal.SIGTERM]:
+    signal.signal(shutdown_signal, handle_shutdown_signal)
+
+if hasattr(signal, 'SIGBREAK'):
+    signal.signal(signal.SIGBREAK, handle_shutdown_signal)
 
 class Data:
     pass
 
 if len(sys.argv) != 2:
     print('filename missing')
+    set_shutdown_reason('startup aborted: filename missing')
     logging.error('startup aborted: filename missing')
     sys.exit(1)
 
 if not os.path.isfile(sys.argv[1]):
     print('file missing')
+    set_shutdown_reason('startup aborted: config file missing')
     logging.error('startup aborted: config file %s not found', sys.argv[1])
     sys.exit(1)
 
@@ -63,6 +104,7 @@ if config['trigger'] == 'ctrl':
         data.triggers.append('alt gr')
 else:
     print('no support for that trigger')
+    set_shutdown_reason('startup aborted: unsupported trigger')
     logging.error('startup aborted: unsupported trigger %r', config['trigger'])
     sys.exit(1)
 
