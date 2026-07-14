@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import keyboard
 import pyperclip
-from time import sleep
+from time import sleep, monotonic
 import platform
 import sys
 import json
@@ -12,6 +12,7 @@ import logging
 import traceback
 import atexit
 import signal
+import faulthandler
 
 # log everything next to flimsy.py so the user always finds it in the repo
 LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log')
@@ -20,7 +21,7 @@ try:
         filename=LOG_PATH,
         filemode='a',
         level=logging.INFO,
-        format='%(asctime)s [%(levelname)s] %(message)s',
+        format='%(asctime)s [%(levelname)s] [%(threadName)s] %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S',
     )
 except Exception:
@@ -28,6 +29,13 @@ except Exception:
     pass
 
 shutdown_reason = 'normal shutdown'
+fault_log_file = None
+
+try:
+    fault_log_file = open(LOG_PATH, 'a', encoding='utf-8')
+    faulthandler.enable(file=fault_log_file, all_threads=True)
+except Exception:
+    fault_log_file = None
 
 def set_shutdown_reason(reason):
     global shutdown_reason
@@ -36,6 +44,10 @@ def set_shutdown_reason(reason):
 def log_shutdown():
     logging.info('flimsy stopped: %s', shutdown_reason)
     logging.shutdown()
+    if faulthandler.is_enabled():
+        faulthandler.disable()
+    if fault_log_file is not None:
+        fault_log_file.close()
 
 atexit.register(log_shutdown)
 
@@ -86,12 +98,27 @@ if not os.path.isfile(sys.argv[1]):
 with open(sys.argv[1], encoding='utf-8') as config_file:
     config = json.load(config_file)
 
-logging.info('flimsy starting on %s with config %s', platform.system(), sys.argv[1])
+diagnostics_config = config.get('diagnostics', {})
+
+logging.info(
+    'flimsy starting: platform=%s pid=%d python=%s keyboard=%s pyperclip=%s config=%s',
+    platform.system(),
+    os.getpid(),
+    platform.python_version(),
+    getattr(keyboard, 'version', 'unknown'),
+    getattr(pyperclip, '__version__', 'unknown'),
+    sys.argv[1],
+)
 
 data = Data()
 data.events = []
 data.timeout = config['timeout']
 data.timer = None
+data.event_buffer_limit = max(int(diagnostics_config.get('event_buffer_limit', 2048)), 100)
+data.slow_handler_seconds = max(float(diagnostics_config.get('slow_handler_seconds', 2)), 0.1)
+data.self_heal = diagnostics_config.get('self_heal', True) is True
+data.health_check_seconds = max(float(diagnostics_config.get('health_check_seconds', 10)), 1)
+data.keyboard_queue_limit = max(int(diagnostics_config.get('keyboard_queue_limit', 512)), 10)
 
 if config['trigger'] == 'ctrl':
     data.triggers = []
@@ -118,6 +145,7 @@ if platform.system() == 'Linux':
     data.delay = 1
 
 data.hotkeys = None
+data.hotkeys_fired = set()
 if 'hotkeys' in config:
     if platform.system() == 'Windows' and 'windows' in config['hotkeys']:
         data.hotkeys = config['hotkeys']['windows']
@@ -125,7 +153,6 @@ if 'hotkeys' in config:
         data.hotkeys = config['hotkeys']['mac']
     if platform.system() == 'Linux' and 'linux' in config['hotkeys']:
         data.hotkeys = config['hotkeys']['linux']
-
 
 def replaceNow(source, target):
     # print((len(source)+1))
@@ -175,10 +202,20 @@ def replaceNow(source, target):
 def handler(event):
     # outer try/except ensures a single bad event cannot kill the keyboard
     # listener thread (which made flimsy "stop working until restart")
+    started_at = monotonic()
     try:
         _handler_impl(event)
     except Exception:
         log_exception('handler')
+    finally:
+        duration = monotonic() - started_at
+        if duration >= data.slow_handler_seconds:
+            logging.warning(
+                'slow keyboard handler: duration=%.3fs event=%r buffer=%d',
+                duration,
+                getattr(event, 'name', None),
+                len(data.events),
+            )
 
 def _handler_impl(event):
     name = event.name
@@ -190,6 +227,14 @@ def _handler_impl(event):
         data.events = []
         # print('clearing events')
     data.timer = event.time
+
+    if len(data.events) >= data.event_buffer_limit:
+        logging.warning(
+            'keyboard event buffer reset: limit=%d',
+            data.event_buffer_limit,
+        )
+        data.events = []
+        data.timer = None
 
     data.events.append(event)
 
@@ -298,10 +343,6 @@ def openProgram(hotkey, command):
     # (not needed in our custom function)
     #keyboard.stash_state()
 
-# remember which hotkey combos are currently in "fired" state so we only
-# trigger once per press instead of on every event while keys stay held
-data.hotkeys_fired = set()
-
 def customHotkey(event):
     try:
         _custom_hotkey_impl(event)
@@ -352,5 +393,62 @@ if data.hotkeys != None:
             hotkeys__key = hotkeys__key.replace('win+','linke windows+')
         keyboard.add_hotkey(hotkeys__key, openProgram, args=[hotkeys__key, hotkeys__value], timeout=0, suppress=False, trigger_on_release=True)
 """
+
+if data.self_heal:
+    logging.info(
+        'keyboard self-heal enabled: interval=%.1fs queue_limit=%d',
+        data.health_check_seconds,
+        data.keyboard_queue_limit,
+    )
+    while True:
+        sleep(data.health_check_seconds)
+        restart_reason = None
+        queue_size = None
+
+        try:
+            listener = getattr(keyboard, '_listener', None)
+            listening_thread = getattr(listener, 'listening_thread', None)
+            processing_thread = getattr(listener, 'processing_thread', None)
+            event_queue = getattr(listener, 'queue', None)
+
+            if listener is None:
+                restart_reason = 'keyboard listener missing'
+            if listener is not None and not getattr(listener, 'listening', False):
+                restart_reason = 'keyboard listener stopped'
+            if restart_reason is None and (
+                listening_thread is None or not listening_thread.is_alive()
+            ):
+                restart_reason = 'keyboard listening thread stopped'
+            if restart_reason is None and (
+                processing_thread is None or not processing_thread.is_alive()
+            ):
+                restart_reason = 'keyboard processing thread stopped'
+            if event_queue is not None:
+                queue_size = event_queue.qsize()
+            if restart_reason is None and queue_size is None:
+                restart_reason = 'keyboard event queue missing'
+            if restart_reason is None and queue_size >= data.keyboard_queue_limit:
+                restart_reason = 'keyboard event queue blocked'
+        except Exception:
+            log_exception('keyboard self-heal check')
+            continue
+
+        if restart_reason is None:
+            continue
+
+        logging.critical(
+            'keyboard self-heal restarting flimsy: reason=%s queue=%r',
+            restart_reason,
+            queue_size,
+        )
+        for log_handler in logging.getLogger().handlers:
+            log_handler.flush()
+        if fault_log_file is not None:
+            fault_log_file.flush()
+
+        try:
+            os.execv(sys.executable, [sys.executable] + sys.argv)
+        except OSError:
+            log_exception('keyboard self-heal restart')
 
 keyboard.wait()
