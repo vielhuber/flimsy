@@ -146,6 +146,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "thumbs": "👍",
         "luck": "🍀",
         "coffee": "☕",
+        "party": "🎉",
         "nbsp": " ",
         "ls -h": "ls -haltr --color=auto\r",
         "cp $a $b": "rsync -ah --progress $a $b",
