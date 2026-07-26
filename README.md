@@ -100,7 +100,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "nah": "git reset --hard; git clean -df;",
         "gitl": "git log --graph --abbrev-commit --decorate --format=format:\"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)\" --all\r",
         "gscript": "clasp push --watch\r",
-        "claude": "IS_SANDBOX=1 claude $(ls \"$HOME/.claude/projects/$(pwd | sed \"s|[^a-zA-Z0-9]|-|g\")\"/*.jsonl &>/dev/null && echo --continue) --dangerously-skip-permissions --model claude-fable-5 --effort high\r",
+        "claude": "IS_SANDBOX=1 claude $(ls \"$HOME/.claude/projects/$(pwd | sed \"s|[^a-zA-Z0-9]|-|g\")\"/*.jsonl &>/dev/null && echo --continue) --dangerously-skip-permissions --model claude-opus-5 --effort high\r",
         "codex": "codex resume --last --yolo --model gpt-5.6-sol -c model_reasoning_effort=\"high\"\r",
         "agy": "IS_SANDBOX=1 agy resume --last\r",
         "mcp": "nvm use --lts && DANGEROUSLY_OMIT_AUTH=true npx --yes @modelcontextprotocol/inspector\r",
