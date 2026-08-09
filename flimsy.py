@@ -119,6 +119,7 @@ data.slow_handler_seconds = max(float(diagnostics_config.get('slow_handler_secon
 data.self_heal = diagnostics_config.get('self_heal', True) is True
 data.health_check_seconds = max(float(diagnostics_config.get('health_check_seconds', 10)), 1)
 data.keyboard_queue_limit = max(int(diagnostics_config.get('keyboard_queue_limit', 512)), 10)
+data.keyboard_hook_unhealthy = False
 
 if config['trigger'] == 'ctrl':
     data.triggers = []
@@ -235,6 +236,7 @@ def _handler_impl(event):
         )
         data.events = []
         data.timer = None
+        data.keyboard_hook_unhealthy = True
 
     data.events.append(event)
 
@@ -411,7 +413,9 @@ if data.self_heal:
             processing_thread = getattr(listener, 'processing_thread', None)
             event_queue = getattr(listener, 'queue', None)
 
-            if listener is None:
+            if data.keyboard_hook_unhealthy:
+                restart_reason = 'keyboard event buffer overflow'
+            if restart_reason is None and listener is None:
                 restart_reason = 'keyboard listener missing'
             if listener is not None and not getattr(listener, 'listening', False):
                 restart_reason = 'keyboard listener stopped'
