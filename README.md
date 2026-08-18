@@ -90,7 +90,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gitt": "git describe --tags\r",
         "gits": "git status -sbu\r",
         "gitb $a": "git checkout -b $a && git push --set-upstream origin $a",
-        "git stash": "git stash -u; git stash pop",
+        "git stash": "git stash -u; git pull; git stash pop",
         "git squash $a": "git merge \"$a\" && git push origin HEAD && git reset --soft \"$a\" && git add -A . && git commit -m \"squash\" && git pull --no-ff && git push origin HEAD",
         "git statusall": "{ printf '\n🟢: clean\n🟡: behind/ahead\n🔴: modified\n\n----------------------------------\n\n'; find . -path './_archive' -prune -o -type d -name .git -print0 | sort -z | while IFS= read -r -d '' d; do r=${d%/.git}; r=${r#./}; s=$(git -C \"$r\" status --porcelain); a=0; b=0; if git -C \"$r\" rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1; then timeout 10s git -C \"$r\" fetch --all --prune >/dev/null 2>&1 || true; a=$(git -C \"$r\" rev-list --count --left-only HEAD...@{u}); b=$(git -C \"$r\" rev-list --count --right-only HEAD...@{u}); fi; if [ -n \"$s\" ]; then emoji=\"🔴\"; elif [ \"$a\" -gt 0 ] || [ \"$b\" -gt 0 ]; then emoji=\"🟡\"; else emoji=\"🟢\"; fi; printf '%s %s\n' \"$emoji\" \"$r\"; done; }\r",
         "git clean": "git clean -df;\r",
