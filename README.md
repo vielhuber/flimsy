@@ -58,7 +58,7 @@ sudo venv/bin/python flimsy.py flimsy.json
 venv\Scripts\python.exe flimsy.py flimsy.json
 ```
 
-a log of every replacement, hotkey trigger and exception is written next to `flimsy.py` as `flimsy.log`.
+a log of every replacement, hotkey trigger and exception is written to `%LOCALAPPDATA%\flimsy\flimsy.log` on windows and next to `flimsy.py` on other systems.
 
 create **flimsy.json** (put this e.g. inside your dropbox):
 
@@ -216,6 +216,16 @@ now add `sudo /usr/bin/flimsy-startup.sh` in your startup programs of your deskt
 ### windows
 
 add `C:\path\to\flimsy\venv\Scripts\pythonw.exe C:\path\to\flimsy\flimsy.py C:\path\to\flimsy\flimsy.json` to your windows task scheduler.
+
+windows task scheduler uses priority `7` (`BelowNormal`) by default. Set priority `4` (`Normal`) from an elevated powershell so the launcher and python startup are not throttled:
+
+```powershell
+$task = Get-ScheduledTask -TaskName "_FLIMSY"
+$task.Settings.Priority = 4
+Set-ScheduledTask -InputObject $task
+```
+
+flimsy also raises its own process to `Normal` as a fallback, but that only takes effect after python has loaded the script.
 
 ### mac
 

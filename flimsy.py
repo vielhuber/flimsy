@@ -1,11 +1,43 @@
 #!/usr/bin/env python3
+import os
+import sys
+
+SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+
+# Avoid slow import probes through the OneDrive reparse directory.
+if (
+    sys.path
+    and os.path.normcase(os.path.abspath(sys.path[0]))
+    == os.path.normcase(SCRIPT_DIRECTORY)
+):
+    sys.path.pop(0)
+
+if sys.platform == 'win32':
+    import ctypes
+
+    NORMAL_PRIORITY_CLASS = 0x20
+    kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+    kernel32.GetCurrentProcess.restype = ctypes.c_void_p
+    kernel32.SetPriorityClass.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    kernel32.SetPriorityClass.restype = ctypes.c_int
+    process_priority_set = bool(kernel32.SetPriorityClass(
+        kernel32.GetCurrentProcess(),
+        NORMAL_PRIORITY_CLASS,
+    ))
+    process_priority_error = None
+    if not process_priority_set:
+        process_priority_error = ctypes.get_last_error()
+
+import platform
+
+# Python 3.8 may block indefinitely while platform.system() executes "ver".
+if sys.platform == 'win32':
+    platform.system = lambda: 'Windows'
+
 import keyboard
 import pyperclip
 from time import sleep, monotonic
-import platform
-import sys
 import json
-import os
 import subprocess
 import shlex
 import logging
@@ -14,8 +46,14 @@ import atexit
 import signal
 import faulthandler
 
-# log everything next to flimsy.py so the user always finds it in the repo
-LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flimsy.log')
+LOG_DIRECTORY = SCRIPT_DIRECTORY
+if sys.platform == 'win32' and os.environ.get('LOCALAPPDATA'):
+    LOG_DIRECTORY = os.path.join(os.environ['LOCALAPPDATA'], 'flimsy')
+    try:
+        os.makedirs(LOG_DIRECTORY, exist_ok=True)
+    except OSError:
+        LOG_DIRECTORY = SCRIPT_DIRECTORY
+LOG_PATH = os.path.join(LOG_DIRECTORY, 'flimsy.log')
 try:
     logging.basicConfig(
         filename=LOG_PATH,
@@ -27,6 +65,12 @@ try:
 except Exception:
     # if we cannot open the log file (permissions etc.), keep going silently
     pass
+
+if sys.platform == 'win32' and process_priority_error is not None:
+    logging.warning(
+        'failed to set normal process priority: winerror=%d',
+        process_priority_error,
+    )
 
 shutdown_reason = 'normal shutdown'
 fault_log_file = None
@@ -101,13 +145,14 @@ with open(sys.argv[1], encoding='utf-8') as config_file:
 diagnostics_config = config.get('diagnostics', {})
 
 logging.info(
-    'flimsy starting: platform=%s pid=%d python=%s keyboard=%s pyperclip=%s config=%s',
+    'flimsy starting: platform=%s pid=%d python=%s keyboard=%s pyperclip=%s config=%s log=%s',
     platform.system(),
     os.getpid(),
     platform.python_version(),
     getattr(keyboard, 'version', 'unknown'),
     getattr(pyperclip, '__version__', 'unknown'),
     sys.argv[1],
+    LOG_PATH,
 )
 
 data = Data()
@@ -119,7 +164,6 @@ data.slow_handler_seconds = max(float(diagnostics_config.get('slow_handler_secon
 data.self_heal = diagnostics_config.get('self_heal', True) is True
 data.health_check_seconds = max(float(diagnostics_config.get('health_check_seconds', 10)), 1)
 data.keyboard_queue_limit = max(int(diagnostics_config.get('keyboard_queue_limit', 512)), 10)
-data.keyboard_hook_unhealthy = False
 
 if config['trigger'] == 'ctrl':
     data.triggers = []
@@ -236,7 +280,6 @@ def _handler_impl(event):
         )
         data.events = []
         data.timer = None
-        data.keyboard_hook_unhealthy = True
 
     data.events.append(event)
 
@@ -413,9 +456,7 @@ if data.self_heal:
             processing_thread = getattr(listener, 'processing_thread', None)
             event_queue = getattr(listener, 'queue', None)
 
-            if data.keyboard_hook_unhealthy:
-                restart_reason = 'keyboard event buffer overflow'
-            if restart_reason is None and listener is None:
+            if listener is None:
                 restart_reason = 'keyboard listener missing'
             if listener is not None and not getattr(listener, 'listening', False):
                 restart_reason = 'keyboard listener stopped'
