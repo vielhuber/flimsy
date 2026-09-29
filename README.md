@@ -99,10 +99,10 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "nah": "git reset --hard; git clean -df;",
         "gitl": "git log --graph --abbrev-commit --decorate --format=format:\"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)\" --all\r",
         "gscript": "clasp push --watch\r",
-        "claude": "IS_SANDBOX=1 claude $(ls \"$HOME/.claude/projects/$(pwd | sed \"s|[^a-zA-Z0-9]|-|g\")\"/*.jsonl &>/dev/null && echo --continue) --dangerously-skip-permissions --model claude-opus-5-5 --effort high\r",
-        "codex": "codex resume --last --include-non-interactive --yolo --model gpt-6-astra -c model_reasoning_effort=\"high\"\r",
-        "opencode": "( export OPENCODE_DISABLE_CLAUDE_CODE=true OPENCODE_DISABLE_EXTERNAL_SKILLS=true IS_SANDBOX=1; directory=$(pwd -P); session_id=$(opencode session list --format json 2>/dev/null | jq -r --arg directory \"$directory\" '[.[] | select(.directory == $directory)] | sort_by(.updated) | last | .id // empty'); if [ -n \"$session_id\" ]; then exec opencode . --session \"$session_id\" --auto --model opencode-go/glm-5.2; else exec opencode . --auto --model opencode-go/glm-5.2; fi )\r",
-        "agy": "IS_SANDBOX=1 agy resume --last\r",
+        "claude": "sudo bash -c 'exec claude $(ls \"$HOME/.claude/projects/$(pwd | sed \"s|[^a-zA-Z0-9]|-|g\")\"/*.jsonl &>/dev/null && echo --continue) --model claude-opus-5-5 --effort high\r'\\r",
+        "codex": "sudo codex resume --last --include-non-interactive --yolo --model gpt-6-astra -c model_reasoning_effort=\"high\"\r",
+        "opencode": "sudo bash -c '( export OPENCODE_DISABLE_CLAUDE_CODE=true OPENCODE_DISABLE_EXTERNAL_SKILLS=true; directory=$(pwd -P); session_id=$(opencode session list --format json 2>/dev/null | jq -r --arg directory \"$directory\" '\"'\"'[.[] | select(.directory == $directory)] | sort_by(.updated) | last | .id // empty'\"'\"'); if [ -n \"$session_id\" ]; then exec opencode . --session \"$session_id\" --auto --model opencode-go/glm-5.2; else exec opencode . --auto --model opencode-go/glm-5.2; fi )\r'\\r",
+        "agy": "sudo agy resume --last\r",
         "mcp": "nvm use --lts && DANGEROUSLY_OMIT_AUTH=true npx --yes @modelcontextprotocol/inspector\r",
         "ai": "Prüfe die letzten Codeänderungen noch einmal sehr gründlich (lies dazu den tatsächlichen Diff bzw. die geänderten Dateien, verlasse dich nicht nur auf dein Gedächtnis): Wurde alles konsistent und vollständig umgesetzt? Wurde etwas übersehen, vergessen oder unbeabsichtigt verändert? Gibt es logische, funktionale oder strukturelle Probleme? Korrigiere alle gefundenen Probleme direkt und vollständig. Fasse danach nur kurz zusammen, was du korrigiert hast – oder bestätige, dass nichts zu beanstanden war.\r",
         "aioff": "Schreibe ein ausführliches Handoff-Dokument nach /tmp/HANDOFF.md (vorhandene Datei überschreiben), das ausschließlich das zuletzt bearbeitete Thema dieser Konversation so zusammenfasst, dass ein anderer KI-Agent ohne jeglichen Vorkontext nahtlos übernehmen und es kritisch bewerten kann. Beginne mit einem Metadaten-Block: Datum/Uhrzeit, Thema in einem Satz. Dann: 1) Aufgabe & Ziel, 2) Aktueller Stand (was ist erledigt, was verifiziert, wie geprüft), 3) Getroffene Entscheidungen mit Begründung, 4) Verworfene Ansätze und warum, 5) Relevante Artefakte (Dateipfade, Befehle, Quellen – Inhalte nur referenzieren, nicht komplett einfügen), 6) Offene Punkte & bekannte Risiken, 7) Konkrete nächste Schritte. Falls die vorhandene Datei zum selben Thema gehört und von einem anderen Agenten stammt: Gehe in einem Abschnitt 'Antwort auf vorheriges Handoff' explizit auf dessen Kritikpunkte ein – was du übernommen hast, was du begründet ablehnst. Sei ehrlich statt beschönigend: ungelöste Probleme und Unsicherheiten explizit nennen. Keine Secrets, Tokens oder Zugangsdaten ins Dokument schreiben. Die Ausführlichkeit gehört ausschließlich in die Datei: Antworte im Chat nur mit 'DONE' – keine Zusammenfassung, keine Erläuterung, keine Wiedergabe des Inhalts.\r",
@@ -241,3 +241,9 @@ now run `sleep 10s; sudo /usr/bin/flimsy-startup.sh &>/dev/null &` via [Automato
 let's get the party started:
 
 ![demo](https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.gif)
+
+## KI-Werkzeuge unter Ubuntu
+
+Die Textbausteine `claude`, `codex`, `opencode` und `agy` starten die normal als root installierten CLIs mit `sudo`. Anmeldung, Verlauf, Hooks und Skills liegen unter `/root`. Die Sitzungsabfrage von Claude/OpenCode läuft ebenfalls im Root-Kontext; das aktuelle Projektverzeichnis bleibt erhalten.
+
+Claude läuft mit den normalen Berechtigungsabfragen: `--dangerously-skip-permissions` wird vom Hersteller für root abgelehnt. Der frühere `IS_SANDBOX=1`-Zusatz entfällt; der echte Ubuntu-Host wird nicht als Sandbox ausgegeben. Die vorhandenen Modelle und sonstigen Startoptionen bleiben erhalten.

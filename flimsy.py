@@ -295,6 +295,12 @@ def _handler_impl(event):
     if event.event_type != keyboard.KEY_UP or name not in data.triggers:
         return
 
+    # only a solo tap triggers: altgr (e.g. "~" on german layouts) arrives as "alt gr"
+    # on linux and with a synthetic ctrl on windows, followed by the typed character
+    previous = data.events[-2] if len(data.events) > 1 else None
+    if previous is None or previous.name != name or previous.event_type != keyboard.KEY_DOWN:
+        return
+
     # on macos " is considered as 2; fix this!
     if platform.system() == 'Darwin' and command.find(' 2') > -1:
         command = command.replace(' 2', ' "')
