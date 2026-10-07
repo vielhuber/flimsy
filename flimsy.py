@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import errno
 import sys
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -45,6 +46,7 @@ import traceback
 import atexit
 import signal
 import faulthandler
+import threading
 
 LOG_DIRECTORY = SCRIPT_DIRECTORY
 if sys.platform == 'win32' and os.environ.get('LOCALAPPDATA'):
@@ -105,9 +107,18 @@ def log_uncaught_exception(exception_type, exception, traceback_value):
         'uncaught exception',
         exc_info=(exception_type, exception, traceback_value)
     )
+    if sys.platform == 'linux' and isinstance(exception, OSError) and exception.errno == errno.ENODEV:
+        logging.critical('keyboard device disconnected; restarting flimsy through its service')
+        logging.shutdown()
+        os._exit(1)
     sys.__excepthook__(exception_type, exception, traceback_value)
 
 sys.excepthook = log_uncaught_exception
+threading.excepthook = lambda arguments: (
+    log_uncaught_exception(arguments.exc_type, arguments.exc_value, arguments.exc_traceback)
+    if sys.platform == 'linux' and isinstance(arguments.exc_value, OSError) and arguments.exc_value.errno == errno.ENODEV
+    else threading.__excepthook__(arguments)
+)
 
 def handle_shutdown_signal(signal_number, frame):
     try:
@@ -497,6 +508,9 @@ if data.self_heal:
         if fault_log_file is not None:
             fault_log_file.flush()
 
+        # The Linux service reopens input devices before dropping privileges.
+        if sys.platform == 'linux':
+            os._exit(1)
         try:
             os.execv(sys.executable, [sys.executable] + sys.argv)
         except OSError:
