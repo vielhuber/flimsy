@@ -7,7 +7,7 @@
 
 > know what's behind your aliases.™
 
-flimsy is a cross-platform text expander for lazy programmers written in python.  
+flimsy is a cross-platform text expander for lazy programmers written in python.
 it intentionally reveals whats behind your aliases so that you know whats going on.
 
 ## supports
@@ -241,9 +241,3 @@ now run `sleep 10s; sudo /usr/bin/flimsy-startup.sh &>/dev/null &` via [Automato
 let's get the party started:
 
 ![demo](https://raw.githubusercontent.com/vielhuber/flimsy/master/flimsy.gif)
-
-## KI-Werkzeuge unter Ubuntu
-
-Die Textbausteine `claude`, `codex`, `opencode` und `agy` starten die normal als root installierten CLIs mit `sudo`. Anmeldung, Verlauf, Hooks und Skills liegen unter `/root`. Die Sitzungsabfrage von Claude/OpenCode läuft ebenfalls im Root-Kontext; das aktuelle Projektverzeichnis bleibt erhalten.
-
-Claude läuft mit den normalen Berechtigungsabfragen: `--dangerously-skip-permissions` wird vom Hersteller für root abgelehnt. Der frühere `IS_SANDBOX=1`-Zusatz entfällt; der echte Ubuntu-Host wird nicht als Sandbox ausgegeben. Die vorhandenen Modelle und sonstigen Startoptionen bleiben erhalten.
