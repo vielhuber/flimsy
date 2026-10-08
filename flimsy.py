@@ -298,6 +298,8 @@ def _handler_impl(event):
         return
 
     command = ''.join(list(keyboard.get_typed_strings(data.events)))
+    if platform.system() == 'Linux':
+        command = command.replace('\u2212', '-')
 
     if event.name == 'enter':
         data.events = []
