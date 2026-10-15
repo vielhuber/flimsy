@@ -493,6 +493,11 @@ if data.self_heal:
                 restart_reason = 'keyboard event queue missing'
             if restart_reason is None and queue_size >= data.keyboard_queue_limit:
                 restart_reason = 'keyboard event queue blocked'
+            if restart_reason is None and sys.platform == 'linux':
+                listening_devices = {device.path for device in getattr(keyboard._os_keyboard.device, 'devices', [])}
+                connected_devices = {device.path for device in keyboard._nixcommon.list_devices_from_proc('kbd')}
+                if listening_devices != connected_devices:
+                    restart_reason = 'keyboard devices changed'
         except Exception:
             log_exception('keyboard self-heal check')
             continue
