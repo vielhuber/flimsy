@@ -100,7 +100,7 @@ create **flimsy.json** (put this e.g. inside your dropbox):
         "gitl": "git log --graph --abbrev-commit --decorate --format=format:\"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)\" --all\r",
         "gscript": "clasp push --watch\r",
         "claude": "sudo bash -c 'exec claude $(ls \"$HOME/.claude/projects/$(pwd | sed \"s|[^a-zA-Z0-9]|-|g\")\"/*.jsonl &>/dev/null && echo --continue) --model claude-fable-5-2 --effort high'\r",
-        "codex": "sudo codex resume --last --include-non-interactive --yolo --model gpt-6.1-sol -c model_reasoning_effort=\"high\"\r",
+        "codex": "sudo codex resume --last --include-non-interactive --yolo --model gpt-6.2-sol -c model_reasoning_effort=\"high\"\r",
         "opencode": "sudo bash -c '( export OPENCODE_CONFIG_CONTENT=\"{\\\"model\\\":\\\"opencode-go/glm-5.2\\\"}\" OPENCODE_DISABLE_CLAUDE_CODE=true OPENCODE_DISABLE_EXTERNAL_SKILLS=true; directory=$(pwd -P); session_id=$(opencode session list --format json 2>/dev/null | jq -r --arg directory \"$directory\" '\"'\"'[.[] | select(.directory == $directory)] | sort_by(.updated) | last | .id // empty'\"'\"'); if [ -n \"$session_id\" ]; then exec opencode . --session \"$session_id\" --auto; else exec opencode . --auto; fi )'\r",
         "agy": "sudo agy --continue\r",
         "mcp": "nvm use --lts && DANGEROUSLY_OMIT_AUTH=true npx --yes @modelcontextprotocol/inspector\r",
